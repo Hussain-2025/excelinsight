@@ -20,7 +20,7 @@ tailwind.config = {
 };
 // Universal App State
 const AppState = {
-  apiBaseUrl: 'http://localhost:5050/api',
+  apiBaseUrl: (window.ENV && window.ENV.API_URL) ? window.ENV.API_URL : 'http://localhost:5050/api',
   auth: {
     token: localStorage.getItem('excelinsight_token') || null,
     user: JSON.parse(localStorage.getItem('excelinsight_user') || 'null')
