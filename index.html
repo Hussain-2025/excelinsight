@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title> Excel & Spreadsheet Analysis </title>
+
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- External Libraries: Lucide Icons, SheetJS, Chart.js, Three.js, jsPDF, html2canvas -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body
+  class="bg-[#f8fafc] text-slate-800 antialiased min-h-screen flex flex-col font-sans selection:bg-indigo-100 selection:text-indigo-800">
+
+  <!-- Top Application Header -->
+  <header class="bg-white border-b border-slate-200/90 sticky top-0 z-40 shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between gap-4">
+
+      <!-- Brand & Title Matching Screenshot -->
+      <div class="flex items-center gap-3">
+        <div
+          class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-indigo-600 flex items-center justify-center text-white shadow-md shadow-indigo-500/20 shrink-0">
+          <i data-lucide="file-spreadsheet" class="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.2]"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-extrabold text-lg sm:text-xl tracking-tight text-slate-900">Excel Insight</span>
+            <!-- <span
+              class="text-[10px] sm:text-[11px] font-bold tracking-wide uppercase px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200/70">BI
+              </span> -->
+          </div>
+          <!-- <p class="text-xs text-slate-500 leading-tight hidden sm:block">Interactive Excel & CSV Intelligence Engine
+          </p> -->
+        </div>
+      </div>
+
+      <!-- Header Action Controls -->
+      <div class="flex items-center gap-2 sm:gap-3">
+
+        <!-- Load Sample Dropdown -->
+        <div class="relative">
+          <button id="sampleDropdownBtn" onclick="toggleSampleMenu()"
+            class="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold rounded-xl text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 transition shadow-xs">
+            <i data-lucide="sparkles" class="w-4 h-4 text-indigo-600"></i>
+            <span class="hidden sm:inline">Load Sample</span>
+            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400"></i>
+          </button>
+
+          <div id="sampleDropdownMenu"
+            class="hidden absolute right-0 mt-2 w-64 rounded-2xl shadow-xl bg-white border border-slate-100 ring-1 ring-black/5 z-50 p-2">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-2 py-1 block">Preset
+              Datasets</span>
+            <button onclick="loadSampleDataset('sales')"
+              class="w-full text-left px-3 py-2 text-xs rounded-xl hover:bg-slate-50 text-slate-800 font-medium flex items-center justify-between">
+              <div>
+                <div class="font-semibold text-slate-900">E-Commerce & Orders</div>
+                <div class="text-[11px] text-slate-400">Sales, Regions, Profits</div>
+              </div>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-400"></i>
+            </button>
+            <button onclick="loadSampleDataset('students')"
+              class="w-full text-left px-3 py-2 text-xs rounded-xl hover:bg-slate-50 text-slate-800 font-medium flex items-center justify-between">
+              <div>
+                <div class="font-semibold text-slate-900">Student Academic Marks</div>
+                <div class="text-[11px] text-slate-400">Classes, Grades, Subjects</div>
+              </div>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-400"></i>
+            </button>
+            <button onclick="loadSampleDataset('employees')"
+              class="w-full text-left px-3 py-2 text-xs rounded-xl hover:bg-slate-50 text-slate-800 font-medium flex items-center justify-between">
+              <div>
+                <div class="font-semibold text-slate-900">Employee HR Directory</div>
+                <div class="text-[11px] text-slate-400">Departments, Salaries, Cities</div>
+              </div>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-400"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Export Dropdown -->
+        <div class="relative">
+          <button id="exportDropdownBtn" onclick="toggleExportMenu()"
+            class="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold rounded-xl text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 transition shadow-xs">
+            <i data-lucide="download" class="w-4 h-4 text-slate-600"></i>
+            <span class="hidden sm:inline">Export</span>
+            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400"></i>
+          </button>
+
+          <div id="exportDropdownMenu"
+            class="hidden absolute right-0 mt-2 w-48 rounded-2xl shadow-xl bg-white border border-slate-100 ring-1 ring-black/5 z-50 p-1.5">
+            <button onclick="exportCurrentData('xlsx')"
+              class="w-full text-left px-3 py-2 text-xs rounded-xl hover:bg-slate-50 text-slate-700 font-medium flex items-center gap-2">
+              <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-600"></i> Export Excel (.xlsx)
+            </button>
+            <button onclick="exportCurrentData('csv')"
+              class="w-full text-left px-3 py-2 text-xs rounded-xl hover:bg-slate-50 text-slate-700 font-medium flex items-center gap-2">
+              <i data-lucide="file-text" class="w-4 h-4 text-blue-600"></i> Export CSV (.csv)
+            </button>
+            <button onclick="exportCurrentData('json')"
+              class="w-full text-left px-3 py-2 text-xs rounded-xl hover:bg-slate-50 text-slate-700 font-medium flex items-center gap-2">
+              <i data-lucide="code" class="w-4 h-4 text-amber-600"></i> Export JSON (.json)
+            </button>
+            <div class="border-t border-slate-100 my-1"></div>
+            <button onclick="exportAnalysisReportPDF()"
+              class="w-full text-left px-3 py-2 text-xs rounded-xl hover:bg-indigo-50 text-indigo-700 font-semibold flex items-center gap-2">
+              <i data-lucide="file-down" class="w-4 h-4 text-indigo-600"></i> Download Full PDF Report
+            </button>
+          </div>
+        </div>
+
+        <!-- 🗣️ AI NLQ Chat Assistant Trigger -->
+        <button id="aiChatDrawerBtn" onclick="toggleAiChatDrawer()"
+          class="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold rounded-xl text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 transition shadow-xs shadow-indigo-500/25 active:scale-95">
+          <i data-lucide="message-square" class="w-4 h-4"></i>
+          <span class="hidden sm:inline">Ask AI Data</span>
+        </button>
+
+        <!-- Primary Upload File Button -->
+        <label for="excelFileInput"
+          class="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 cursor-pointer shadow-sm shadow-indigo-500/25 active:scale-95 transition">
+          <i data-lucide="upload-cloud" class="w-4 h-4"></i>
+          <span>Upload File</span>
+        </label>
+        <input type="file" id="excelFileInput" accept=".xlsx, .xls, .csv" class="hidden"
+          onchange="handleFileUpload(event)" />
+
+        <!-- User Authentication / Profile Area -->
+        <div id="authHeaderContainer" class="flex items-center gap-2 pl-1 border-l border-slate-200">
+          <button id="authLoginBtn" onclick="openAuthModal()"
+            class="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-xl text-slate-700 bg-slate-100 hover:bg-slate-200 transition">
+            <i data-lucide="user" class="w-4 h-4 text-slate-600"></i>
+            <span>Sign In</span>
+          </button>
+          <div id="authUserMenu" class="hidden flex items-center gap-2">
+            <span id="authUserName" class="text-xs font-bold text-slate-800 bg-slate-100 px-2.5 py-1.5 rounded-lg border border-slate-200/80 truncate max-w-[120px]">User</span>
+            <span id="authUserRoleBadge" class="hidden text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-amber-50 text-amber-700 border border-amber-200">ADMIN</span>
+            <button onclick="handleUserLogout()" title="Sign Out"
+              class="p-1.5 text-slate-400 hover:text-rose-600 rounded-lg hover:bg-rose-50 transition">
+              <i data-lucide="log-out" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <main class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-5 w-full flex-1 flex flex-col gap-5">
+
+    <!-- Active File & Multi-Sheet Banner Matching Screenshot -->
+    <div
+      class="bg-white border border-slate-200/80 rounded-2xl p-4 shadow-[0_1px_3px_rgba(0,0,0,0.02)] flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+      <div class="flex items-center gap-3.5">
+        <!-- Rounded Green Spreadsheet Icon Box -->
+        <div
+          class="w-11 h-11 rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-200/80 flex items-center justify-center shrink-0 shadow-xs">
+          <i data-lucide="table-2" class="w-6 h-6 stroke-[2.2]"></i>
+        </div>
+
+        <div class="min-w-0">
+          <div class="flex flex-wrap items-center gap-2">
+            <h2 id="bannerFileName"
+              class="text-sm font-bold text-slate-900 tracking-tight truncate max-w-xs sm:max-w-md">
+              Dummy_Student_and_Employee_Dat...</h2>
+            <div class="flex items-center gap-1.5">
+              <span id="bannerRowCount"
+                class="text-[11px] font-semibold bg-slate-100 text-slate-700 px-3 py-0.5 rounded-full font-mono">18
+                Rows</span>
+              <span id="bannerColCount"
+                class="text-[11px] font-semibold bg-slate-100 text-slate-700 px-3 py-0.5 rounded-full font-mono">8
+                Columns</span>
+            </div>
+          </div>
+          <p class="text-[11.5px] text-slate-500 mt-0.5">Auto-parsed with SheetJS &bull; Ready for dynamic filtering and
+            KPI tracking</p>
+        </div>
+      </div>
+
+      <!-- Sheet Tabs Switcher (Pill UI matching screenshot) -->
+      <div class="flex items-center gap-2 overflow-x-auto py-1">
+        <span class="text-xs text-slate-400 font-medium flex items-center gap-1 shrink-0">
+          <i data-lucide="layers" class="w-3.5 h-3.5"></i> Sheets:
+        </span>
+        <div id="sheetPillContainer" class="flex items-center gap-1.5 flex-nowrap"></div>
+      </div>
+    </div>
+
+    <!-- 🌟 Real-Time Animated KPI Metric Cards -->
+    <div id="kpiCardsContainer" class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+      <div class="bg-white rounded-2xl border border-slate-200/80 p-4 shadow-xs flex items-center justify-between">
+        <div>
+          <span class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">Total Records</span>
+          <span id="kpiTotalRows" class="text-xl sm:text-2xl font-extrabold text-slate-900 font-mono">0</span>
+        </div>
+        <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+          <i data-lucide="hash" class="w-5 h-5"></i>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl border border-slate-200/80 p-4 shadow-xs flex items-center justify-between">
+        <div>
+          <span class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">Dimensions</span>
+          <span id="kpiTotalCols" class="text-xl sm:text-2xl font-extrabold text-slate-900 font-mono">0</span>
+        </div>
+        <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+          <i data-lucide="columns-3" class="w-5 h-5"></i>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl border border-slate-200/80 p-4 shadow-xs flex items-center justify-between">
+        <div>
+          <span id="kpiMetric1Label" class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block truncate max-w-[120px]">Primary Metric</span>
+          <span id="kpiMetric1Val" class="text-xl sm:text-2xl font-extrabold text-indigo-600 font-mono">0</span>
+        </div>
+        <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+          <i data-lucide="trending-up" class="w-5 h-5"></i>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl border border-slate-200/80 p-4 shadow-xs flex items-center justify-between">
+        <div>
+          <span id="kpiMetric2Label" class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block truncate max-w-[120px]">Average Value</span>
+          <span id="kpiMetric2Val" class="text-xl sm:text-2xl font-extrabold text-slate-800 font-mono">0</span>
+        </div>
+        <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
+          <i data-lucide="activity" class="w-5 h-5"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🤖 Google Gemini AI Smart Intelligence Card -->
+    <div class="bg-gradient-to-r from-indigo-900 via-indigo-950 to-slate-900 text-white rounded-2xl p-5 shadow-lg border border-indigo-700/40 relative overflow-hidden">
+      <div class="relative z-10 flex flex-col md:flex-row md:items-start justify-between gap-4">
+        <div class="space-y-1.5 flex-1">
+          <div class="flex items-center gap-2">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-indigo-500/30 text-indigo-200 border border-indigo-400/30">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-indigo-300"></i>
+              Powered by Google Gemini 1.5 Flash
+            </span>
+            <span id="aiInsightBadge" class="text-[10px] uppercase font-mono tracking-wider text-slate-400">Live BI Engine</span>
+          </div>
+          <h3 class="text-base sm:text-lg font-bold text-white tracking-tight flex items-center gap-2">
+            AI Automated Executive Intelligence
+          </h3>
+          <div id="aiInsightContent" class="text-xs sm:text-sm text-indigo-100/90 leading-relaxed pt-1 prose-invert max-w-none">
+            Click <strong>Generate AI Insights</strong> to analyze current distributions, detect outliers, and generate actionable recommendations directly from Gemini API.
+          </div>
+        </div>
+
+        <div class="flex sm:flex-col items-center gap-2 shrink-0">
+          <button id="btnGenerateAiInsight" onclick="requestGeminiInsight()"
+            class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white text-xs font-semibold shadow-md shadow-indigo-900/50 transition active:scale-95">
+            <i data-lucide="wand-2" class="w-4 h-4"></i>
+            <span>Generate Insights</span>
+          </button>
+          <button onclick="copyAiInsight()"
+            class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-[11px] font-medium transition">
+            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+            <span>Copy Text</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🧮 Interactive Formula Engine Bar (fx) -->
+    <div class="bg-white border border-slate-200/90 rounded-2xl p-2.5 shadow-xs flex items-center gap-3">
+      <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 text-slate-700 font-mono text-xs font-bold shrink-0">
+        <span class="italic text-indigo-600">fx</span>
+      </div>
+      <div class="relative flex-1">
+        <input type="text" id="excelFormulaInput" placeholder="Enter Excel calculation (e.g. =SUM(Sales), =AVERAGE(Profit), =ROUND(Sales * 0.18, 2))"
+          onkeydown="if(event.key==='Enter') executeFormulaBar()"
+          class="w-full text-xs font-mono px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:border-indigo-500 text-slate-800" />
+      </div>
+      <button onclick="executeFormulaBar()"
+        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 transition active:scale-95 shrink-0 shadow-xs">
+        <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
+        <span>Compute</span>
+      </button>
+      <div id="formulaResultBadge" class="hidden font-mono text-xs font-bold px-3 py-1 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 shrink-0"></div>
+    </div>
+
+    <!-- Platform Tabs Navigation -->
+    <div class="border-b border-slate-200/90">
+      <nav class="flex space-x-6 sm:space-x-8 overflow-x-auto" aria-label="Platform Views">
+        <!-- 1. Data Grid & Filter -->
+        <button onclick="switchTab('grid')" id="tabBtn-grid"
+          class="tab-nav-btn pb-3 px-1 border-b-2 font-semibold text-xs sm:text-sm text-indigo-600 border-indigo-600 flex items-center gap-2 whitespace-nowrap">
+          <i data-lucide="table" class="w-4 h-4"></i> Data Grid & Filter
+        </button>
+
+        <!-- 2. Chart Studio (2D & 3D) -->
+        <button onclick="switchTab('charts')" id="tabBtn-charts"
+          class="tab-nav-btn pb-3 px-1 border-b-2 font-semibold text-xs sm:text-sm text-slate-500 border-transparent hover:text-slate-700 hover:border-slate-300 flex items-center gap-2 whitespace-nowrap">
+          <i data-lucide="bar-chart-3" class="w-4 h-4"></i> Chart Studio (2D & 3D)
+        </button>
+
+        <!-- 3. Category Summary & Averages -->
+        <button onclick="switchTab('category')" id="tabBtn-category"
+          class="tab-nav-btn pb-3 px-1 border-b-2 font-semibold text-xs sm:text-sm text-slate-500 border-transparent hover:text-slate-700 hover:border-slate-300 flex items-center gap-2 whitespace-nowrap">
+          <i data-lucide="split" class="w-4 h-4"></i> Category Summary
+        </button>
+
+        <!-- 4. Pivot Matrix -->
+        <button onclick="switchTab('pivot')" id="tabBtn-pivot"
+          class="tab-nav-btn pb-3 px-1 border-b-2 font-semibold text-xs sm:text-sm text-slate-500 border-transparent hover:text-slate-700 hover:border-slate-300 flex items-center gap-2 whitespace-nowrap">
+          <i data-lucide="grid" class="w-4 h-4"></i> Pivot Table
+        </button>
+
+        <!-- 5. Sheet Compare & Diff Engine (NEW) -->
+        <button onclick="switchTab('diff')" id="tabBtn-diff"
+          class="tab-nav-btn pb-3 px-1 border-b-2 font-semibold text-xs sm:text-sm text-slate-500 border-transparent hover:text-slate-700 hover:border-slate-300 flex items-center gap-2 whitespace-nowrap">
+          <i data-lucide="git-compare" class="w-4 h-4 text-emerald-600"></i> Sheet Diff
+        </button>
+
+        <!-- 6. Statistical Anomaly & Outliers (NEW) -->
+        <button onclick="switchTab('anomalies')" id="tabBtn-anomalies"
+          class="tab-nav-btn pb-3 px-1 border-b-2 font-semibold text-xs sm:text-sm text-slate-500 border-transparent hover:text-slate-700 hover:border-slate-300 flex items-center gap-2 whitespace-nowrap">
+          <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-500"></i> Outliers & AI ML
+        </button>
+
+        <!-- 7. Data Hygiene & Stats -->
+        <button onclick="switchTab('hygiene')" id="tabBtn-hygiene"
+          class="tab-nav-btn pb-3 px-1 border-b-2 font-semibold text-xs sm:text-sm text-slate-500 border-transparent hover:text-slate-700 hover:border-slate-300 flex items-center gap-2 whitespace-nowrap">
+          <i data-lucide="shield-check" class="w-4 h-4"></i> Data Hygiene & Stats
+        </button>
+
+        <!-- 8. Upload History (MongoDB) -->
+        <button onclick="switchTab('history')" id="tabBtn-history"
+          class="tab-nav-btn pb-3 px-1 border-b-2 font-semibold text-xs sm:text-sm text-slate-500 border-transparent hover:text-slate-700 hover:border-slate-300 flex items-center gap-2 whitespace-nowrap">
+          <i data-lucide="history" class="w-4 h-4"></i> Upload History
+        </button>
+
+        <!-- 9. Admin Control Panel (Only for Admin) -->
+        <button onclick="switchTab('admin')" id="tabBtn-admin"
+          class="hidden tab-nav-btn pb-3 px-1 border-b-2 font-semibold text-xs sm:text-sm text-amber-600 border-transparent hover:text-amber-700 hover:border-amber-400 flex items-center gap-2 whitespace-nowrap">
+          <i data-lucide="shield-alert" class="w-4 h-4"></i> Admin Panel
+        </button>
+      </nav>
+    </div>
+
+    <!-- TAB 1: DATA GRID & FILTER -->
+    <div id="tabContent-grid" class="tab-panel space-y-4">
+      <div
+        class="bg-white rounded-2xl border border-slate-200/80 shadow-[0_1px_3px_rgba(0,0,0,0.02)] p-4 sm:p-5 flex flex-col gap-4">
+
+        <!-- Filter Controls Row -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+          <!-- Real-Time Search Box -->
+          <div class="relative w-full sm:w-96">
+            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+            <input type="text" id="gridSearchInput" placeholder="Filter rows across all columns..."
+              oninput="handleGridSearch(this.value)"
+              class="w-full pl-10 pr-4 py-2 text-xs bg-slate-50/70 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-slate-700 font-normal transition placeholder-slate-400" />
+          </div>
+
+          <!-- Target Column Filter & Counter Matching Screenshot -->
+          <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+            <select id="gridColumnFilterSelect" onchange="renderGridData()"
+              class="text-xs bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 font-medium text-slate-700 focus:outline-none focus:border-indigo-500">
+              <option value="all">All Columns</option>
+            </select>
+
+            <span class="text-slate-300">|</span>
+
+            <span id="gridShowingCountLabel" class="text-xs font-medium text-slate-600 font-mono">Showing 18 of
+              18</span>
+
+            <button onclick="resetGridSearch()"
+              class="text-xs text-indigo-600 hover:text-indigo-800 font-semibold px-2 py-1 rounded-lg hover:bg-indigo-50 transition">
+              Reset
+            </button>
+          </div>
+        </div>
+
+        <!-- Spreadsheet Table Structure with ABC and 123 Badges -->
+        <div class="overflow-x-auto border border-slate-200/70 rounded-xl bg-white max-h-[500px]">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead
+              class="bg-[#f8fafc] text-slate-700 font-semibold sticky top-0 shadow-xs z-10 border-b border-slate-200">
+              <tr id="gridHeaderRow"></tr>
+            </thead>
+            <tbody id="gridTableBody" class="divide-y divide-slate-100 text-slate-700"></tbody>
+          </table>
+        </div>
+
+        <!-- Grid Pagination Controls -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 pt-1">
+          <div class="flex items-center gap-2">
+            <span>Rows per page:</span>
+            <select id="gridPageSizeSelect" onchange="changeGridPageSize(this.value)"
+              class="bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 text-xs text-slate-700 font-mono">
+              <option value="25">25</option>
+              <option value="50" selected>50</option>
+              <option value="100">100</option>
+            </select>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button id="btnGridPrev" onclick="navigateGridPage(-1)"
+              class="p-1.5 rounded-lg border border-slate-200 hover:bg-slate-50 disabled:opacity-40">
+              <i data-lucide="chevron-left" class="w-4 h-4 text-slate-600"></i>
+            </button>
+            <span id="gridPageIndicator" class="px-2 font-medium text-slate-700 font-mono">Page 1 of 1</span>
+            <button id="btnGridNext" onclick="navigateGridPage(1)"
+              class="p-1.5 rounded-lg border border-slate-200 hover:bg-slate-50 disabled:opacity-40">
+              <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600"></i>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TAB 2: CHART STUDIO -->
+    <div id="tabContent-charts" class="tab-panel hidden space-y-5">
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-5">
+        <!-- Configuration Card -->
+        <div class="lg:col-span-1 bg-white border border-slate-200/80 rounded-2xl p-5 shadow-xs space-y-4">
+          <div>
+            <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+              <i data-lucide="sliders" class="w-4 h-4 text-indigo-600"></i> Chart Configuration
+            </h3>
+            <p class="text-xs text-slate-500">Plot visual trends across any columns</p>
+          </div>
+
+          <div>
+            <label class="text-xs font-semibold text-slate-700 block mb-1.5">Chart Type</label>
+            <select id="studioChartType" onchange="renderStudioChart()"
+              class="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl p-2.5 font-medium text-slate-700">
+              <optgroup label="2D Standard Visuals">
+                <option value="bar">Bar / Column</option>
+                <option value="line">Line Trend</option>
+                <option value="area">Area Chart</option>
+                <option value="doughnut">Doughnut Chart</option>
+                <option value="pie">Pie Chart</option>
+                <option value="scatter">Scatter Plot</option>
+                <option value="radar">Radar Matrix</option>
+              </optgroup>
+              <optgroup label="3D Interactive Visuals (Three.js)">
+                <option value="3d-column">🌟 3D Column Grid (WebGL)</option>
+              </optgroup>
+            </select>
+          </div>
+
+          <div>
+            <label class="text-xs font-semibold text-slate-700 block mb-1.5">Dimension (X-Axis)</label>
+            <select id="studioXCol" onchange="renderStudioChart()"
+              class="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl p-2.5 font-medium text-slate-700"></select>
+          </div>
+
+          <div>
+            <label class="text-xs font-semibold text-slate-700 block mb-1.5">Metric (Y-Axis)</label>
+            <select id="studioYCol" onchange="renderStudioChart()"
+              class="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl p-2.5 font-medium text-slate-700"></select>
+          </div>
+
+          <div>
+            <label class="text-xs font-semibold text-slate-700 block mb-1.5">Calculation</label>
+            <select id="studioAgg" onchange="renderStudioChart()"
+              class="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl p-2.5 font-medium text-slate-700">
+              <option value="avg">Average (Mean)</option>
+              <option value="sum">Sum (&Sigma;)</option>
+              <option value="count">Count Frequency</option>
+              <option value="max">Maximum</option>
+              <option value="min">Minimum</option>
+            </select>
+          </div>
+
+          <button onclick="renderStudioChart()"
+            class="w-full py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-semibold shadow-xs transition">
+            Refresh Visual
+          </button>
+        </div>
+
+        <!-- Studio Canvas Card -->
+        <div
+          class="lg:col-span-3 bg-white border border-slate-200/80 rounded-2xl p-6 shadow-xs flex flex-col justify-between">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+            <div>
+              <h3 id="studioChartTitle" class="text-sm font-bold text-slate-900">Visual Insights</h3>
+              <p id="studioChartDesc" class="text-xs text-slate-500">Auto-aggregated for active spreadsheet</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="downloadStudioChart()"
+                class="px-3 py-1.5 text-xs border border-slate-200 rounded-xl hover:bg-slate-50 text-slate-700 font-medium flex items-center gap-1.5">
+                <i data-lucide="camera" class="w-3.5 h-3.5 text-slate-500"></i> Export PNG
+              </button>
+            </div>
+          </div>
+          <div class="relative h-[380px] w-full flex items-center justify-center">
+            <canvas id="studioChartCanvas"></canvas>
+            <div id="threeJsCanvasContainer" class="hidden w-full h-full rounded-xl overflow-hidden bg-slate-900 flex items-center justify-center"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: CATEGORY SUMMARY & AVERAGES -->
+    <div id="tabContent-category" class="tab-panel hidden space-y-5">
+      <div class="bg-white rounded-2xl border border-slate-200/80 shadow-xs p-5 space-y-4">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-100 pb-3">
+          <div>
+            <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+              <i data-lucide="split" class="w-4 h-4 text-indigo-600"></i> Full Category Averages & Aggregations
+            </h3>
+            <p class="text-xs text-slate-500">Aggregates every category in your dataset (all regions, all classes, all
+              departments) without truncating to top items.</p>
+          </div>
+
+          <!-- Group Selectors -->
+          <div class="flex flex-wrap items-center gap-3">
+            <div>
+              <label class="text-[11px] font-semibold text-slate-600 block mb-1">Group By Category (X):</label>
+              <select id="categoryGroupSelect" onchange="runCategoryAggregation()"
+                class="text-xs bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 font-medium text-slate-700 focus:outline-none focus:border-indigo-500"></select>
+            </div>
+            <div>
+              <label class="text-[11px] font-semibold text-slate-600 block mb-1">Calculate Values For (Y):</label>
+              <select id="categoryMetricSelect" onchange="runCategoryAggregation()"
+                class="text-xs bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 font-medium text-slate-700 focus:outline-none focus:border-indigo-500"></select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Aggregation Table and Chart Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-1">
+          <!-- Comprehensive Breakdown Table -->
+          <div class="lg:col-span-2 overflow-x-auto border border-slate-200/70 rounded-xl max-h-[460px]">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead class="bg-[#f8fafc] text-slate-700 font-semibold sticky top-0 border-b border-slate-200">
+                <tr>
+                  <th class="py-2.5 px-3">Category Value</th>
+                  <th class="py-2.5 px-3 font-mono">Row Count</th>
+                  <th class="py-2.5 px-3 font-mono">Total Sum</th>
+                  <th class="py-2.5 px-3 font-mono text-indigo-600 font-semibold">Calculated Average</th>
+                  <th class="py-2.5 px-3 font-mono">Min Value</th>
+                  <th class="py-2.5 px-3 font-mono">Max Value</th>
+                  <th class="py-2.5 px-3 font-mono text-right">% of Grand Total</th>
+                </tr>
+              </thead>
+              <tbody id="categoryTableBody" class="divide-y divide-slate-100 font-mono text-slate-700"></tbody>
+              <tfoot id="categoryTableFoot"
+                class="bg-slate-50 font-mono font-bold text-slate-900 border-t border-slate-200"></tfoot>
+            </table>
+          </div>
+
+          <!-- Category Comparison Chart -->
+          <div class="p-4 rounded-xl border border-slate-200/80 bg-slate-50/50 flex flex-col justify-between">
+            <div class="flex items-center justify-between mb-3 border-b border-slate-200/70 pb-2">
+              <span id="categoryChartTitle" class="text-xs font-semibold text-slate-700">Category Comparison</span>
+              <span
+                class="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">Average</span>
+            </div>
+            <div class="relative h-[320px] w-full flex items-center justify-center">
+              <canvas id="categoryChartCanvas"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: DATA HYGIENE & STATS (EXACT SCREENSHOT RECREATION) -->
+    <div id="tabContent-hygiene" class="tab-panel hidden space-y-6">
+
+      <!-- 1. Quick Data Transformations Card -->
+      <div
+        class="bg-white border border-slate-200/80 rounded-2xl p-5 sm:p-6 shadow-[0_1px_3px_rgba(0,0,0,0.02)] space-y-4">
+        <div>
+          <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+            <i data-lucide="wrench" class="w-5 h-5 text-indigo-600"></i> Quick Data Transformations
+          </h3>
+          <p class="text-xs text-slate-500 mt-0.5">Clean dataset artifacts directly inside your browser</p>
+        </div>
+
+        <!-- Action Buttons matching screenshot -->
+        <div class="flex flex-wrap items-center gap-3 pt-1">
+          <!-- Deduplicate Rows -->
+          <button onclick="hygieneRemoveDuplicates()"
+            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-semibold text-xs shadow-xs transition active:scale-95">
+            <i data-lucide="copy" class="w-4 h-4 text-slate-500"></i>
+            <span>Deduplicate Rows</span>
+          </button>
+
+          <!-- Strip Empty / Null Rows -->
+          <button onclick="hygieneStripNullRows()"
+            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-rose-50 text-slate-700 font-semibold text-xs shadow-xs transition active:scale-95">
+            <i data-lucide="trash-2" class="w-4 h-4 text-rose-500"></i>
+            <span>Strip Empty / Null Rows</span>
+          </button>
+
+          <!-- Standardize Text & Trim Spaces -->
+          <button onclick="hygieneTrimWhitespace()"
+            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-semibold text-xs shadow-xs transition active:scale-95">
+            <i data-lucide="sparkles" class="w-4 h-4 text-indigo-600"></i>
+            <span>Standardize Text & Trim Spaces</span>
+          </button>
+
+          <!-- Restore Original Data -->
+          <button onclick="hygieneRestoreOriginal()"
+            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-semibold text-xs shadow-xs transition active:scale-95">
+            <i data-lucide="rotate-ccw" class="w-4 h-4 text-slate-500"></i>
+            <span>Restore Original Data</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 2. Column Profiles & Data Health Header Matching Screenshot -->
+      <div class="space-y-4">
+        <div class="flex items-center gap-2 px-1">
+          <i data-lucide="table-2" class="w-4 h-4 text-emerald-600"></i>
+          <h3 class="text-sm sm:text-base font-bold text-slate-900 tracking-tight">Column Profiles & Data Health</h3>
+        </div>
+
+        <!-- Dynamic Grid of Column Cards matching screenshot -->
+        <div id="columnProfilesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Injected via JavaScript -->
+        </div>
+      </div>
+
+    <!-- TAB 5: PIVOT TABLE & MATRIX -->
+    <div id="tabContent-pivot" class="tab-panel hidden space-y-5">
+      <div class="bg-white rounded-2xl border border-slate-200/80 shadow-xs p-5 space-y-4">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-3">
+          <div>
+            <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+              <i data-lucide="grid" class="w-4 h-4 text-indigo-600"></i> Dynamic Pivot Matrix
+            </h3>
+            <p class="text-xs text-slate-500">Cross-tabulate multidimensional rows vs columns with custom aggregation</p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-3">
+            <div>
+              <label class="text-[11px] font-semibold text-slate-600 block mb-1">Rows Dimension:</label>
+              <select id="pivotRowSelect" onchange="renderPivotMatrix()"
+                class="text-xs bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 font-medium text-slate-700"></select>
+            </div>
+            <div>
+              <label class="text-[11px] font-semibold text-slate-600 block mb-1">Columns Dimension:</label>
+              <select id="pivotColSelect" onchange="renderPivotMatrix()"
+                class="text-xs bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 font-medium text-slate-700"></select>
+            </div>
+            <div>
+              <label class="text-[11px] font-semibold text-slate-600 block mb-1">Value Field:</label>
+              <select id="pivotValSelect" onchange="renderPivotMatrix()"
+                class="text-xs bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 font-medium text-slate-700"></select>
+            </div>
+            <div>
+              <label class="text-[11px] font-semibold text-slate-600 block mb-1">Calculation:</label>
+              <select id="pivotAggSelect" onchange="renderPivotMatrix()"
+                class="text-xs bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 font-medium text-slate-700">
+                <option value="sum">Sum (&Sigma;)</option>
+                <option value="avg">Average</option>
+                <option value="count">Count Frequency</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto border border-slate-200/70 rounded-xl max-h-[500px]">
+          <table id="pivotMatrixTable" class="w-full text-left text-xs border-collapse">
+            <thead id="pivotTableHead" class="bg-slate-50 text-slate-700 font-semibold sticky top-0 border-b border-slate-200"></thead>
+            <tbody id="pivotTableBody" class="divide-y divide-slate-100 font-mono text-slate-700"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 6: UPLOAD HISTORY (MONGODB) -->
+    <div id="tabContent-history" class="tab-panel hidden space-y-5">
+      <div class="bg-white rounded-2xl border border-slate-200/80 shadow-xs p-5 space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div>
+            <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+              <i data-lucide="history" class="w-4 h-4 text-indigo-600"></i> Cloud Upload History
+            </h3>
+            <p class="text-xs text-slate-500">Stored datasets in MongoDB Atlas for your account</p>
+          </div>
+          <button onclick="fetchUploadHistory()"
+            class="px-3 py-1.5 text-xs border border-slate-200 rounded-xl hover:bg-slate-50 text-slate-700 font-medium flex items-center gap-1.5">
+            <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-slate-500"></i> Refresh History
+          </button>
+        </div>
+
+        <div id="historyAuthNotice" class="hidden p-6 rounded-2xl bg-amber-50 border border-amber-200 text-center space-y-2">
+          <p class="text-sm font-bold text-amber-900">Sign in to save and browse upload history</p>
+          <p class="text-xs text-amber-700">Every spreadsheet you analyze will be safely indexed in your MongoDB cloud database.</p>
+          <button onclick="openAuthModal()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-semibold shadow-xs">
+            Sign In / Register
+          </button>
+        </div>
+
+        <div class="overflow-x-auto border border-slate-200/70 rounded-xl">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead class="bg-slate-50 text-slate-700 font-semibold border-b border-slate-200">
+              <tr>
+                <th class="py-2.5 px-3">File Name</th>
+                <th class="py-2.5 px-3">Sheets</th>
+                <th class="py-2.5 px-3">Rows</th>
+                <th class="py-2.5 px-3">Columns</th>
+                <th class="py-2.5 px-3">Uploaded At</th>
+                <th class="py-2.5 px-3 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="historyTableBody" class="divide-y divide-slate-100 font-mono text-slate-700">
+              <tr>
+                <td colspan="6" class="py-6 text-center text-slate-400 font-sans">No saved uploads found. Upload or load a spreadsheet to save history.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 7: ADMIN CONTROL PANEL -->
+    <div id="tabContent-admin" class="tab-panel hidden space-y-5">
+      <div class="bg-white rounded-2xl border border-slate-200/80 shadow-xs p-5 space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div>
+            <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+              <i data-lucide="shield-check" class="w-4 h-4 text-amber-600"></i> Platform Administration & Data Governance
+            </h3>
+            <p class="text-xs text-slate-500">Monitor all registered users, system-wide uploads, and cumulative row processing</p>
+          </div>
+          <button onclick="fetchAdminData()"
+            class="px-3 py-1.5 text-xs border border-slate-200 rounded-xl hover:bg-slate-50 text-slate-700 font-medium flex items-center gap-1.5">
+            <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-slate-500"></i> Refresh Admin Metrics
+          </button>
+        </div>
+
+        <!-- Admin Overview Metric Counters -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="p-4 rounded-xl border border-slate-200/80 bg-slate-50/50">
+            <span class="text-xs font-semibold text-slate-500 uppercase">Total Registered Users</span>
+            <span id="adminTotalUsers" class="block text-2xl font-black text-slate-900 font-mono mt-1">0</span>
+          </div>
+          <div class="p-4 rounded-xl border border-slate-200/80 bg-slate-50/50">
+            <span class="text-xs font-semibold text-slate-500 uppercase">System Uploads</span>
+            <span id="adminTotalUploads" class="block text-2xl font-black text-indigo-600 font-mono mt-1">0</span>
+          </div>
+          <div class="p-4 rounded-xl border border-slate-200/80 bg-slate-50/50">
+            <span class="text-xs font-semibold text-slate-500 uppercase">Rows Processed</span>
+            <span id="adminTotalRows" class="block text-2xl font-black text-emerald-600 font-mono mt-1">0</span>
+          </div>
+        </div>
+
+        <div class="space-y-2 pt-2">
+          <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider">User Directory & Roles</h4>
+          <div class="overflow-x-auto border border-slate-200/70 rounded-xl">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead class="bg-slate-50 text-slate-700 font-semibold border-b border-slate-200">
+                <tr>
+                  <th class="py-2.5 px-3">Name</th>
+                  <th class="py-2.5 px-3">Email</th>
+                  <th class="py-2.5 px-3">Role</th>
+                  <th class="py-2.5 px-3">Uploads</th>
+                  <th class="py-2.5 px-3">Created</th>
+                  <th class="py-2.5 px-3 text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody id="adminUsersTableBody" class="divide-y divide-slate-100 text-slate-700 font-mono"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: SHEET COMPARE & DIFF ENGINE -->
+    <div id="tabContent-diff" class="tab-panel hidden space-y-5">
+      <div class="bg-white rounded-2xl border border-slate-200/80 shadow-xs p-5 space-y-4">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-3">
+          <div>
+            <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+              <i data-lucide="git-compare" class="w-4 h-4 text-emerald-600"></i> Spreadsheet Diff & Comparison Engine
+            </h3>
+            <p class="text-xs text-slate-500">Compare two sheets or upload a revision to highlight added, removed, and edited cells with delta percentages</p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-3">
+            <div>
+              <label class="text-[11px] font-semibold text-slate-600 block mb-1">Base Sheet (Original):</label>
+              <select id="diffBaseSheetSelect" class="text-xs bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 font-medium text-slate-700"></select>
+            </div>
+            <div>
+              <label class="text-[11px] font-semibold text-slate-600 block mb-1">Compare With (Revised):</label>
+              <select id="diffTargetSheetSelect" class="text-xs bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 font-medium text-slate-700"></select>
+            </div>
+            <div class="self-end">
+              <button onclick="runSheetComparison()"
+                class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition shadow-xs">
+                Compare Sheets
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Diff Summary Statistics -->
+        <div id="diffSummaryContainer" class="hidden grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div class="p-3.5 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-900">
+            <span class="text-[11px] font-semibold uppercase block">Identical Records</span>
+            <span id="diffIdenticalCount" class="text-lg font-extrabold font-mono">0</span>
+          </div>
+          <div class="p-3.5 rounded-xl border border-amber-200 bg-amber-50 text-amber-900">
+            <span class="text-[11px] font-semibold uppercase block">Modified Cells</span>
+            <span id="diffModifiedCount" class="text-lg font-extrabold font-mono">0</span>
+          </div>
+          <div class="p-3.5 rounded-xl border border-rose-200 bg-rose-50 text-rose-900">
+            <span class="text-[11px] font-semibold uppercase block">Row Variance</span>
+            <span id="diffVarianceCount" class="text-lg font-extrabold font-mono">0</span>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto border border-slate-200/70 rounded-xl max-h-[500px]">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead class="bg-slate-50 text-slate-700 font-semibold sticky top-0 border-b border-slate-200">
+              <tr id="diffHeaderRow"></tr>
+            </thead>
+            <tbody id="diffTableBody" class="divide-y divide-slate-100 font-mono text-slate-700">
+              <tr>
+                <td colspan="6" class="py-10 text-center text-slate-400 font-sans">
+                  Select two sheets above and click <strong>Compare Sheets</strong> to see differences.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: STATISTICAL ANOMALY & OUTLIER DETECTOR -->
+    <div id="tabContent-anomalies" class="tab-panel hidden space-y-5">
+      <div class="bg-white rounded-2xl border border-slate-200/80 shadow-xs p-5 space-y-4">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-3">
+          <div>
+            <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+              <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-500"></i> Statistical Outliers & Machine Learning Anomaly Detection
+            </h3>
+            <p class="text-xs text-slate-500">Automated Z-Score ($|Z| > 2.5$) and Tukey's Interquartile Range ($1.5 \times IQR$) detection</p>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <div>
+              <label class="text-[11px] font-semibold text-slate-600 block mb-1">Analyze Column:</label>
+              <select id="anomalyColSelect" onchange="runAnomalyDetection()"
+                class="text-xs bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 font-medium text-slate-700"></select>
+            </div>
+            <div class="self-end">
+              <button onclick="clampOutliers()"
+                class="px-3.5 py-2 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 rounded-xl text-xs font-semibold transition active:scale-95">
+                Clamp Outliers to Boundaries
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Anomaly Metric Badges -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50">
+            <span class="text-[11px] font-semibold text-slate-500 uppercase block">Total Outliers</span>
+            <span id="anomalyCount" class="text-xl font-bold font-mono text-rose-600">0</span>
+          </div>
+          <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50">
+            <span class="text-[11px] font-semibold text-slate-500 uppercase block">Mean &mu;</span>
+            <span id="anomalyMean" class="text-xl font-bold font-mono text-slate-800">0</span>
+          </div>
+          <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50">
+            <span class="text-[11px] font-semibold text-slate-500 uppercase block">Std Dev &sigma;</span>
+            <span id="anomalyStdDev" class="text-xl font-bold font-mono text-slate-800">0</span>
+          </div>
+          <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50">
+            <span class="text-[11px] font-semibold text-slate-500 uppercase block">Normal IQR Range</span>
+            <span id="anomalyIqrRange" class="text-xs font-bold font-mono text-indigo-600 block mt-1.5 truncate">-</span>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider">Flagged Outlier Records</h4>
+          <div class="overflow-x-auto border border-slate-200/70 rounded-xl max-h-[350px]">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead class="bg-slate-50 text-slate-700 font-semibold sticky top-0 border-b border-slate-200">
+                <tr>
+                  <th class="py-2.5 px-3">Row #</th>
+                  <th class="py-2.5 px-3">Dimension</th>
+                  <th class="py-2.5 px-3">Observed Value</th>
+                  <th class="py-2.5 px-3 font-mono">Z-Score</th>
+                  <th class="py-2.5 px-3">Deviation Type</th>
+                  <th class="py-2.5 px-3 text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody id="anomalyTableBody" class="divide-y divide-slate-100 font-mono text-slate-700"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- 🗣️ Side Drawer: Chat with Your Data (NLQ Assistant) -->
+  <div id="aiChatDrawer" class="hidden fixed inset-y-0 right-0 z-50 w-full sm:w-[420px] bg-white shadow-2xl border-l border-slate-200 flex flex-col animate-in slide-in-from-right duration-200">
+    <div class="p-4 bg-gradient-to-r from-indigo-900 to-purple-900 text-white flex items-center justify-between border-b border-indigo-700">
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center text-white">
+          <i data-lucide="sparkles" class="w-4 h-4"></i>
+        </div>
+        <div>
+          <h3 class="text-sm font-bold text-white leading-tight">Chat with Data</h3>
+          <p class="text-[11px] text-indigo-200">Natural Language Query Engine</p>
+        </div>
+      </div>
+      <button onclick="toggleAiChatDrawer()" class="p-1 rounded-lg text-white/70 hover:text-white hover:bg-white/10">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <!-- Chat Messages Stream -->
+    <div id="aiChatMessages" class="flex-1 p-4 overflow-y-auto space-y-3.5 text-xs bg-slate-50/50">
+      <div class="p-3.5 rounded-2xl bg-white border border-slate-200 text-slate-700 space-y-1.5 shadow-2xs">
+        <div class="flex items-center gap-1.5 font-bold text-indigo-600">
+          <i data-lucide="bot" class="w-3.5 h-3.5"></i>
+          <span>Excel Insight AI Assistant</span>
+        </div>
+        <p class="leading-relaxed">
+          Ask me anything in plain English! Try asking:
+        </p>
+        <div class="flex flex-col gap-1.5 pt-1">
+          <button onclick="askPresetQuestion('Which category has the highest sales?')" class="text-left px-2.5 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-medium text-[11px] transition">
+            💡 "Which category has the highest sales?"
+          </button>
+          <button onclick="askPresetQuestion('Are there any negative profits in this dataset?')" class="text-left px-2.5 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-medium text-[11px] transition">
+            💡 "Are there any negative profits in this dataset?"
+          </button>
+          <button onclick="askPresetQuestion('Show me a bar chart of sales by region')" class="text-left px-2.5 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-medium text-[11px] transition">
+            💡 "Show me a bar chart of sales by region"
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat Input Area -->
+    <div class="p-3 bg-white border-t border-slate-200">
+      <form onsubmit="handleSendAiChatMessage(event)" class="flex items-center gap-2">
+        <input type="text" id="aiChatInput" placeholder="Ask a question about your data..."
+          class="flex-1 text-xs px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:border-indigo-500 text-slate-800" />
+        <button type="submit" id="aiChatSendBtn"
+          class="p-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white transition active:scale-95">
+          <i data-lucide="send" class="w-4 h-4"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 🔐 User Authentication Modal (Login / Register) -->
+  <div id="authModal" class="hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl border border-slate-100 overflow-hidden animate-in fade-in zoom-in duration-200">
+      <div class="p-6 space-y-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2.5">
+            <div class="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center shadow-xs">
+              <i data-lucide="lock" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <h3 id="authModalTitle" class="text-base font-bold text-slate-900">Sign in to Excel Insight</h3>
+              <p class="text-xs text-slate-500">MERN Stack Authentication & Dashboard</p>
+            </div>
+          </div>
+          <button onclick="closeAuthModal()" class="text-slate-400 hover:text-slate-600 p-1">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <!-- Mode Switcher -->
+        <div class="flex border-b border-slate-200">
+          <button id="authTabLogin" onclick="switchAuthMode('login')"
+            class="flex-1 pb-2.5 text-xs font-bold text-indigo-600 border-b-2 border-indigo-600 text-center">
+            Sign In
+          </button>
+          <button id="authTabRegister" onclick="switchAuthMode('register')"
+            class="flex-1 pb-2.5 text-xs font-bold text-slate-400 border-b-2 border-transparent hover:text-slate-700 text-center">
+            Create Account
+          </button>
+        </div>
+
+        <!-- Auth Form -->
+        <form id="authForm" onsubmit="handleAuthSubmit(event)" class="space-y-3.5">
+          <div id="authNameGroup" class="hidden space-y-1">
+            <label class="text-xs font-semibold text-slate-700">Full Name</label>
+            <input type="text" id="authNameInput" placeholder="e.g. Hussain Asghar"
+              class="w-full px-3.5 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-800" />
+          </div>
+
+          <div class="space-y-1">
+            <label class="text-xs font-semibold text-slate-700">Email Address</label>
+            <input type="email" id="authEmailInput" required placeholder="user@domain.com"
+              class="w-full px-3.5 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-800" />
+          </div>
+
+          <div class="space-y-1">
+            <label class="text-xs font-semibold text-slate-700">Password</label>
+            <input type="password" id="authPasswordInput" required placeholder="••••••••" minlength="6"
+              class="w-full px-3.5 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-800" />
+          </div>
+
+          <div id="authRoleGroup" class="hidden space-y-1">
+            <label class="text-xs font-semibold text-slate-700">Account Type</label>
+            <select id="authRoleInput" class="w-full px-3.5 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl font-medium text-slate-700">
+              <option value="user">Regular User</option>
+              <option value="admin">Platform Admin</option>
+            </select>
+          </div>
+
+          <button type="submit" id="authSubmitBtn"
+            class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold shadow-md shadow-indigo-500/20 active:scale-95 transition">
+            Sign In
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div id="toastNotification"
+    class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+    <div
+      class="bg-slate-900 text-white text-xs font-medium px-4 py-3 rounded-2xl shadow-xl flex items-center gap-2 border border-slate-700">
+      <i id="toastIcon" data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+      <span id="toastMessage">Action completed successfully!</span>
+    </div>
+  </div>
+
+  <!-- Application Scripts -->
+  <script src="app.js"></script>
+</body>
+
+</html>
