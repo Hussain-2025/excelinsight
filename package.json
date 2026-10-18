@@ -1,0 +1,9 @@
+{
+  "name": "excelinsight",
+  "version": "1.0.0",
+  "description": "Excel Insight - MERN Analytics Platform Frontend",
+  "private": true,
+  "scripts": {
+    "start": "npx http-server . -p 8080"
+  }
+}
