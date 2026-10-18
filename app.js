@@ -1982,7 +1982,9 @@ function isolateOutlier(rowIdx) {
 // -------------------------------------------------------------
 function toggleAiChatDrawer() {
   const drawer = document.getElementById('aiChatDrawer');
-  drawer.classList.toggle('hidden');
+  const backdrop = document.getElementById('aiChatBackdrop');
+  if (drawer) drawer.classList.toggle('hidden');
+  if (backdrop) backdrop.classList.toggle('hidden');
 }
 
 function askPresetQuestion(text) {
@@ -2087,3 +2089,23 @@ function applyAiChart(type, x, y, agg) {
   toggleAiChatDrawer();
   showToast(`Auto-plotted ${type || 'bar'} chart for ${y} by ${x}`);
 }
+
+// Mobile Responsive Window Resize & Orientation Change Listener
+window.addEventListener('resize', () => {
+  if (AppState.studioChartInstance) {
+    AppState.studioChartInstance.resize();
+  }
+  if (AppState.categoryChartInstance) {
+    AppState.categoryChartInstance.resize();
+  }
+  if (AppState.threeJs.renderer && AppState.threeJs.camera) {
+    const container = document.getElementById('threeJsCanvasContainer');
+    if (container && container.clientWidth) {
+      const width = container.clientWidth;
+      const height = container.clientHeight || 280;
+      AppState.threeJs.camera.aspect = width / height;
+      AppState.threeJs.camera.updateProjectionMatrix();
+      AppState.threeJs.renderer.setSize(width, height);
+    }
+  }
+});
