@@ -25,8 +25,8 @@ const AppState = {
     token: localStorage.getItem('excelinsight_token') || null,
     user: JSON.parse(localStorage.getItem('excelinsight_user') || 'null')
   },
-  fileName: 'Dummy_Student_and_Employee_Data.xlsx',
-  activeSheet: 'Students',
+  fileName: 'Sales_Performance_Q3.xlsx',
+  activeSheet: 'Sales',
   sheets: {},
   currentRows: [],
   originalRows: [],
@@ -135,6 +135,9 @@ window.addEventListener('DOMContentLoaded', () => {
   lucide.createIcons();
   checkAuthState();
   loadSampleDataset('sales'); // Matches screenshot default (OrderID, Region, Category, Sales, Profit)
+
+  // Silently wake up Render backend to eliminate cold-start lag
+  fetch(`${AppState.apiBaseUrl}/health`).catch(() => {});
 
   // Dismiss dropdowns when clicking outside
   document.addEventListener('click', (e) => {
@@ -1725,17 +1728,45 @@ function executeFormulaBar() {
       return;
     }
 
-    // 3. Evaluate COUNT(colName)
+    // 3. Evaluate MAX(colName)
+    const maxMatch = expr.match(/MAX\((.*?)\)/i);
+    if (maxMatch) {
+      const col = maxMatch[1].trim();
+      const nums = AppState.currentRows.map(r => Number(r[col])).filter(n => !isNaN(n));
+      const maxVal = nums.length > 0 ? Math.max(...nums) : 0;
+      badge.classList.remove('hidden', 'text-rose-700', 'bg-rose-50');
+      badge.classList.add('text-emerald-700', 'bg-emerald-50');
+      badge.textContent = `MAX(${col}) = ${maxVal.toLocaleString()}`;
+      showToast(`Computed MAX: ${maxVal.toLocaleString()}`);
+      return;
+    }
+
+    // 4. Evaluate MIN(colName)
+    const minMatch = expr.match(/MIN\((.*?)\)/i);
+    if (minMatch) {
+      const col = minMatch[1].trim();
+      const nums = AppState.currentRows.map(r => Number(r[col])).filter(n => !isNaN(n));
+      const minVal = nums.length > 0 ? Math.min(...nums) : 0;
+      badge.classList.remove('hidden', 'text-rose-700', 'bg-rose-50');
+      badge.classList.add('text-emerald-700', 'bg-emerald-50');
+      badge.textContent = `MIN(${col}) = ${minVal.toLocaleString()}`;
+      showToast(`Computed MIN: ${minVal.toLocaleString()}`);
+      return;
+    }
+
+    // 5. Evaluate COUNT(colName)
     const countMatch = expr.match(/COUNT\((.*?)\)/i);
     if (countMatch) {
       const col = countMatch[1].trim();
       const count = AppState.currentRows.filter(r => r[col] !== undefined && r[col] !== '').length;
-      badge.classList.remove('hidden');
+      badge.classList.remove('hidden', 'text-rose-700', 'bg-rose-50');
+      badge.classList.add('text-emerald-700', 'bg-emerald-50');
       badge.textContent = `COUNT(${col}) = ${count}`;
+      showToast(`Computed COUNT: ${count}`);
       return;
     }
 
-    // 4. Safe mathematical expression fallback
+    // 6. Safe mathematical expression fallback
     const sanitized = expr.replace(/[^0-9+\-*/().]/g, '');
     const result = Function(`'use strict'; return (${sanitized})`)();
     badge.classList.remove('hidden', 'text-rose-700', 'bg-rose-50');
