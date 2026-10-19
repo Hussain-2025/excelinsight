@@ -155,11 +155,26 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-function toggleSampleMenu() {
-  document.getElementById('sampleDropdownMenu').classList.toggle('hidden');
+function toggleSampleMenu(e) {
+  if (e && e.stopPropagation) e.stopPropagation();
+  const menu = document.getElementById('sampleDropdownMenu');
+  const exportMenu = document.getElementById('exportDropdownMenu');
+  if (exportMenu) exportMenu.classList.add('hidden');
+  if (menu) {
+    menu.classList.toggle('hidden');
+    lucide.createIcons();
+  }
 }
-function toggleExportMenu() {
-  document.getElementById('exportDropdownMenu').classList.toggle('hidden');
+
+function toggleExportMenu(e) {
+  if (e && e.stopPropagation) e.stopPropagation();
+  const menu = document.getElementById('exportDropdownMenu');
+  const sampleMenu = document.getElementById('sampleDropdownMenu');
+  if (sampleMenu) sampleMenu.classList.add('hidden');
+  if (menu) {
+    menu.classList.toggle('hidden');
+    lucide.createIcons();
+  }
 }
 
 function loadSampleDataset(key) {

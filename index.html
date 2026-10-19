@@ -54,19 +54,19 @@
 
         <!-- Load Sample Dropdown -->
         <div class="relative">
-          <button id="sampleDropdownBtn" onclick="toggleSampleMenu()" title="Load Sample Dataset"
+          <button id="sampleDropdownBtn" onclick="toggleSampleMenu(event)" title="Load Sample Dataset"
             class="inline-flex items-center gap-1.5 px-2.5 sm:px-3.5 py-2 text-xs font-semibold rounded-xl text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 transition shadow-xs">
             <i data-lucide="sparkles" class="w-4 h-4 text-indigo-600"></i>
-            <span class="hidden sm:inline">Load Sample</span>
-            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 hidden xs:inline"></i>
+            <span class="inline font-medium">Load Sample</span>
+            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400"></i>
           </button>
 
           <div id="sampleDropdownMenu"
-            class="hidden absolute right-0 mt-2 w-64 max-w-[calc(100vw-1.5rem)] rounded-2xl shadow-xl bg-white border border-slate-100 ring-1 ring-black/5 z-50 p-2">
+            class="hidden fixed inset-x-3 top-16 sm:absolute sm:inset-auto sm:right-0 sm:top-full mt-1 sm:mt-2 w-auto sm:w-64 max-w-sm mx-auto sm:mx-0 rounded-2xl shadow-2xl bg-white border border-slate-200 ring-1 ring-black/5 z-50 p-2">
             <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-2 py-1 block">Preset
               Datasets</span>
             <button onclick="loadSampleDataset('sales')"
-              class="w-full text-left px-3 py-2 text-xs rounded-xl hover:bg-slate-50 text-slate-800 font-medium flex items-center justify-between">
+              class="w-full text-left px-3 py-2.5 text-xs rounded-xl hover:bg-slate-50 text-slate-800 font-medium flex items-center justify-between transition">
               <div>
                 <div class="font-semibold text-slate-900">E-Commerce & Orders</div>
                 <div class="text-[11px] text-slate-400">Sales, Regions, Profits</div>
@@ -74,7 +74,7 @@
               <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-400"></i>
             </button>
             <button onclick="loadSampleDataset('students')"
-              class="w-full text-left px-3 py-2 text-xs rounded-xl hover:bg-slate-50 text-slate-800 font-medium flex items-center justify-between">
+              class="w-full text-left px-3 py-2.5 text-xs rounded-xl hover:bg-slate-50 text-slate-800 font-medium flex items-center justify-between transition">
               <div>
                 <div class="font-semibold text-slate-900">Student Academic Marks</div>
                 <div class="text-[11px] text-slate-400">Classes, Grades, Subjects</div>
@@ -82,7 +82,7 @@
               <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-400"></i>
             </button>
             <button onclick="loadSampleDataset('employees')"
-              class="w-full text-left px-3 py-2 text-xs rounded-xl hover:bg-slate-50 text-slate-800 font-medium flex items-center justify-between">
+              class="w-full text-left px-3 py-2.5 text-xs rounded-xl hover:bg-slate-50 text-slate-800 font-medium flex items-center justify-between transition">
               <div>
                 <div class="font-semibold text-slate-900">Employee HR Directory</div>
                 <div class="text-[11px] text-slate-400">Departments, Salaries, Cities</div>
@@ -94,7 +94,7 @@
 
         <!-- Export Dropdown -->
         <div class="relative">
-          <button id="exportDropdownBtn" onclick="toggleExportMenu()" title="Export Dataset"
+          <button id="exportDropdownBtn" onclick="toggleExportMenu(event)" title="Export Dataset"
             class="inline-flex items-center gap-1.5 px-2.5 sm:px-3.5 py-2 text-xs font-semibold rounded-xl text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 transition shadow-xs">
             <i data-lucide="download" class="w-4 h-4 text-slate-600"></i>
             <span class="hidden sm:inline">Export</span>
@@ -102,7 +102,7 @@
           </button>
 
           <div id="exportDropdownMenu"
-            class="hidden absolute right-0 mt-2 w-48 max-w-[calc(100vw-1.5rem)] rounded-2xl shadow-xl bg-white border border-slate-100 ring-1 ring-black/5 z-50 p-1.5">
+            class="hidden fixed inset-x-3 top-16 sm:absolute sm:inset-auto sm:right-0 sm:top-full mt-1 sm:mt-2 w-auto sm:w-52 max-w-sm mx-auto sm:mx-0 rounded-2xl shadow-2xl bg-white border border-slate-200 ring-1 ring-black/5 z-50 p-2">
             <button onclick="exportCurrentData('xlsx')"
               class="w-full text-left px-3 py-2 text-xs rounded-xl hover:bg-slate-50 text-slate-700 font-medium flex items-center gap-2">
               <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-600"></i> Export Excel (.xlsx)
