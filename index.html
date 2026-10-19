@@ -124,10 +124,10 @@
         </div>
 
         <!-- 🗣️ AI NLQ Chat Assistant Trigger -->
-        <button id="aiChatDrawerBtn" onclick="toggleAiChatDrawer()" title="Ask AI Data"
+        <button id="aiChatDrawerBtn" onclick="toggleAiChatDrawer()" title="Ask AI Data Chatbot"
           class="inline-flex items-center gap-1.5 px-2.5 sm:px-3.5 py-2 text-xs font-semibold rounded-xl text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 transition shadow-xs shadow-indigo-500/25 active:scale-95">
           <i data-lucide="message-square" class="w-4 h-4"></i>
-          <span class="hidden md:inline">Ask AI Data</span>
+          <span class="inline font-bold">Ask AI Data</span>
         </button>
 
         <!-- Primary Upload File Button -->
@@ -262,6 +262,11 @@
             class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white text-xs font-semibold shadow-md shadow-indigo-900/50 transition active:scale-95">
             <i data-lucide="wand-2" class="w-4 h-4"></i>
             <span>Generate Insights</span>
+          </button>
+          <button onclick="toggleAiChatDrawer()" title="Chat with this Report"
+            class="w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-indigo-600/40 hover:bg-indigo-600/60 text-indigo-200 border border-indigo-400/30 text-[11px] font-semibold transition active:scale-95">
+            <i data-lucide="message-square" class="w-3.5 h-3.5 text-indigo-300"></i>
+            <span>Chat with Report</span>
           </button>
           <button onclick="copyAiInsight()"
             class="w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white text-[11px] font-medium transition">
@@ -942,14 +947,17 @@
           Ask me anything in plain English! Try asking:
         </p>
         <div class="flex flex-col gap-1.5 pt-1">
+          <button onclick="askPresetQuestion('Summarize the key findings from the executive report')" class="text-left px-2.5 py-2 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-medium text-[11px] transition">
+            📊 "Summarize key findings from executive report"
+          </button>
           <button onclick="askPresetQuestion('Which category has the highest sales?')" class="text-left px-2.5 py-2 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-medium text-[11px] transition">
             💡 "Which category has the highest sales?"
           </button>
           <button onclick="askPresetQuestion('Are there any negative profits in this dataset?')" class="text-left px-2.5 py-2 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-medium text-[11px] transition">
-            💡 "Are there any negative profits in this dataset?"
+            ⚠️ "Are there any negative profits in this dataset?"
           </button>
           <button onclick="askPresetQuestion('Show me a bar chart of sales by region')" class="text-left px-2.5 py-2 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-medium text-[11px] transition">
-            💡 "Show me a bar chart of sales by region"
+            📈 "Show me a bar chart of sales by region"
           </button>
         </div>
       </div>
@@ -1035,6 +1043,13 @@
       </div>
     </div>
   </div>
+
+  <!-- Floating Quick AI Chatbot Launcher -->
+  <button id="floatingAiChatBtn" onclick="toggleAiChatDrawer()" title="Open AI Data Chatbot"
+    class="fixed bottom-5 right-5 z-40 flex items-center gap-2 px-3.5 py-2.5 rounded-full bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 text-white shadow-xl shadow-indigo-600/35 hover:scale-105 active:scale-95 transition-all">
+    <i data-lucide="bot" class="w-5 h-5"></i>
+    <span class="text-xs font-bold">Ask AI Data</span>
+  </button>
 
   <!-- Notification Toast -->
   <div id="toastNotification"

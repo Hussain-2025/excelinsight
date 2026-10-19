@@ -1059,27 +1059,24 @@ async function requestGeminiInsight() {
   const btn = document.getElementById('btnGenerateAiInsight');
   const contentEl = document.getElementById('aiInsightContent');
   const badgeEl = document.getElementById('aiInsightBadge');
-
-  if (!AppState.auth.token) {
-    showToast('Please sign in first to run Gemini AI insights', true);
-    openAuthModal();
-    return;
-  }
+  const isGuest = !AppState.auth.token;
 
   btn.disabled = true;
   btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i><span>Analyzing with Gemini...</span>`;
   lucide.createIcons();
 
-  contentEl.innerHTML = `<div class="flex items-center gap-2 text-indigo-200 py-3"><i data-lucide="sparkles" class="w-4 h-4 animate-pulse"></i> Generating executive summary from Google Gemini 1.5 Flash...</div>`;
+  contentEl.innerHTML = `<div class="flex items-center gap-2 text-indigo-200 py-3"><i data-lucide="sparkles" class="w-4 h-4 animate-pulse"></i> Generating executive summary from Google Gemini AI...</div>`;
   lucide.createIcons();
 
   try {
+    const headers = { 'Content-Type': 'application/json' };
+    if (AppState.auth.token) {
+      headers['Authorization'] = `Bearer ${AppState.auth.token}`;
+    }
+
     const res = await fetch(`${AppState.apiBaseUrl}/ai/insights`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${AppState.auth.token}`
-      },
+      headers,
       body: JSON.stringify({
         fileName: AppState.fileName,
         totalRows: AppState.currentRows.length,
@@ -1095,7 +1092,7 @@ async function requestGeminiInsight() {
     }
 
     AppState.lastAiInsight = data.insight;
-    badgeEl.textContent = `Source: ${data.source}`;
+    badgeEl.textContent = `Source: ${data.source}${isGuest ? ' (Guest Mode)' : ''}`;
     
     // Convert basic markdown bullet points to clean HTML
     const formatted = data.insight
@@ -1104,7 +1101,12 @@ async function requestGeminiInsight() {
       .replace(/\* /g, '• ');
 
     contentEl.innerHTML = `<div class="space-y-1.5 text-xs sm:text-sm text-indigo-50 leading-relaxed font-sans">${formatted}</div>`;
-    showToast('Gemini AI executive insights generated successfully!');
+    
+    if (isGuest) {
+      showToast('AI insights generated! (Sign in to save this analysis to your account history)');
+    } else {
+      showToast('Gemini AI executive insights generated successfully!');
+    }
   } catch (err) {
     console.error(err);
     contentEl.innerHTML = `<div class="text-rose-300 text-xs py-2">⚠️ ${err.message}. Showing local rule-based statistical overview.</div>`;
@@ -1992,6 +1994,20 @@ function askPresetQuestion(text) {
   handleSendAiChatMessage(new Event('submit'));
 }
 
+function formatAiMarkdown(text) {
+  if (!text) return '';
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/`([^`]+)`/g, '<code class="px-1 py-0.5 rounded bg-slate-100 font-mono text-indigo-700 text-[11px]">$1</code>')
+    .replace(/^\s*[\*\-]\s+(.*)$/gm, '<li class="ml-4 list-disc">$1</li>')
+    .replace(/\n\n+/g, '<br/><br/>')
+    .replace(/\n/g, '<br/>');
+}
+
 async function handleSendAiChatMessage(e) {
   if (e && e.preventDefault) e.preventDefault();
   const input = document.getElementById('aiChatInput');
@@ -2003,7 +2019,7 @@ async function handleSendAiChatMessage(e) {
   // Append User Bubble
   container.innerHTML += `
     <div class="flex justify-end">
-      <div class="p-3 rounded-2xl bg-indigo-600 text-white max-w-[85%] shadow-xs leading-relaxed">
+      <div class="p-3 rounded-2xl bg-indigo-600 text-white max-w-[85%] shadow-xs leading-relaxed text-xs">
         ${question}
       </div>
     </div>
@@ -2015,32 +2031,39 @@ async function handleSendAiChatMessage(e) {
   // Append Thinking Indicator
   const thinkingId = 'thinking_' + Date.now();
   container.innerHTML += `
-    <div id="${thinkingId}" class="flex items-center gap-2 text-slate-500 py-2">
+    <div id="${thinkingId}" class="flex items-center gap-2 text-slate-500 py-2 text-xs">
       <i data-lucide="loader-2" class="w-4 h-4 animate-spin text-indigo-600"></i>
-      <span>Gemini 3.8 Flash is analyzing data...</span>
+      <span>Gemini AI is analyzing your data & report...</span>
     </div>
   `;
   lucide.createIcons();
   container.scrollTop = container.scrollHeight;
 
   try {
+    const headers = { 'Content-Type': 'application/json' };
+    if (AppState.auth.token) {
+      headers['Authorization'] = `Bearer ${AppState.auth.token}`;
+    }
+
     const res = await fetch(`${AppState.apiBaseUrl}/ai/nlq`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${AppState.auth.token || ''}`
-      },
+      headers,
       body: JSON.stringify({
         question,
         fileName: AppState.fileName,
         columns: AppState.columns,
         columnStats: AppState.colMeta,
-        sampleRows: AppState.currentRows.slice(0, 10)
+        sampleRows: (AppState.currentRows || []).slice(0, 15),
+        lastInsight: AppState.lastAiInsight || ''
       })
     });
 
     const data = await res.json();
     document.getElementById(thinkingId)?.remove();
+
+    if (!data.success && data.message) {
+      throw new Error(data.message);
+    }
 
     let chartActionHtml = '';
     if (data.suggestedChart && data.suggestedChart.x && data.suggestedChart.y) {
@@ -2055,13 +2078,19 @@ async function handleSendAiChatMessage(e) {
       `;
     }
 
+    const formattedAnswer = formatAiMarkdown(data.answer || 'Analysis complete.');
+    const sourceLabel = data.source ? `Powered by ${data.source}` : 'Gemini Intelligence';
+
     container.innerHTML += `
-      <div class="p-3.5 rounded-2xl bg-white border border-slate-200 text-slate-800 shadow-xs space-y-1.5">
-        <div class="flex items-center gap-1.5 font-bold text-indigo-600 text-[11px]">
-          <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
-          <span>Gemini Intelligence</span>
+      <div class="p-3.5 rounded-2xl bg-white border border-slate-200 text-slate-800 shadow-xs space-y-2">
+        <div class="flex items-center justify-between font-bold text-indigo-600 text-[11px]">
+          <div class="flex items-center gap-1.5">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+            <span>${sourceLabel}</span>
+          </div>
+          ${!AppState.auth.token ? '<span class="text-[9px] px-1.5 py-0.5 rounded bg-amber-50 text-amber-700 font-semibold border border-amber-200">Guest</span>' : ''}
         </div>
-        <p class="leading-relaxed">${data.answer || 'Analysis complete.'}</p>
+        <div class="leading-relaxed text-xs text-slate-700 space-y-1">${formattedAnswer}</div>
         ${chartActionHtml}
       </div>
     `;

@@ -1,4 +1,4 @@
-﻿const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 const protect = async (req, res, next) => {
@@ -25,6 +25,26 @@ const protect = async (req, res, next) => {
   }
 };
 
+const optionalProtect = async (req, res, next) => {
+  let token;
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    try {
+      token = req.headers.authorization.split(' ')[1];
+      if (token && token !== 'null' && token !== 'undefined' && token !== '') {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'excelinsight_secret_fallback');
+        req.user = await User.findById(decoded.id).select('-password');
+      }
+    } catch (error) {
+      // Allow guest execution without blocking
+      req.user = null;
+    }
+  }
+  return next();
+};
+
 const adminOnly = (req, res, next) => {
   if (req.user && req.user.role === 'admin') {
     return next();
@@ -32,4 +52,4 @@ const adminOnly = (req, res, next) => {
   return res.status(403).json({ success: false, message: 'Admin access required for this action' });
 };
 
-module.exports = { protect, adminOnly };
+module.exports = { protect, optionalProtect, adminOnly };
