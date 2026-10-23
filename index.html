@@ -15,6 +15,17 @@
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          screens: {
+            xs: '480px'
+          }
+        }
+      }
+    };
+  </script>
 
   <!-- External Libraries: Lucide Icons, SheetJS, Chart.js, Three.js, jsPDF, html2canvas -->
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -304,9 +315,9 @@
           onkeydown="if(event.key==='Enter') executeFormulaBar()"
           class="w-full text-xs font-mono px-3 py-1.5 sm:py-2 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:border-indigo-500 text-slate-800" />
       </div>
-      <div class="flex items-center gap-2 shrink-0 w-full xs:w-auto justify-end">
+      <div class="flex items-center gap-2 shrink-0 justify-end">
         <button onclick="executeFormulaBar()"
-          class="inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 transition active:scale-95 shrink-0 shadow-xs flex-1 xs:flex-none">
+          class="inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 transition active:scale-95 shrink-0 shadow-xs">
           <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
           <span>Compute</span>
         </button>
@@ -314,24 +325,33 @@
       </div>
     </div>
 
-    <!-- Platform Tabs Navigation -->
-    <div class="border-b border-slate-200/90 relative">
-      <nav class="flex space-x-3 sm:space-x-8 overflow-x-auto no-scrollbar scroll-smooth px-1 pb-1 -mb-px" aria-label="Platform Views">
+    <!-- Platform Tabs Navigation with Horizontal Sidescroller & Smooth Controls -->
+    <div class="border-b border-slate-200/90 relative flex items-center gap-1.5 pb-1">
+      <!-- Left Scroll Arrow -->
+      <button onclick="scrollTabsNav(-260)" id="tabNavScrollLeftBtn"
+        aria-label="Scroll tabs left" title="Scroll tabs left"
+        class="shrink-0 w-8 h-8 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-600 hover:text-indigo-600 transition shadow-xs active:scale-90 cursor-pointer">
+        <i data-lucide="chevron-left" class="w-4 h-4"></i>
+      </button>
+
+      <!-- Scrollable Nav with Dedicated Visible Sidescroller -->
+      <nav id="platformTabsNav" onscroll="updateTabsNavScrollButtons()"
+        class="tabs-sidescroller flex-1 min-w-0 flex space-x-2 sm:space-x-5 overflow-x-auto scroll-smooth px-1 pb-2 pt-0.5" aria-label="Platform Views">
         <!-- 1. Data Grid & Filter -->
         <button onclick="switchTab('grid')" id="tabBtn-grid"
-          class="tab-nav-btn py-2.5 sm:pb-3 px-2 sm:px-1 border-b-2 font-semibold text-xs sm:text-sm text-indigo-600 border-indigo-600 flex items-center gap-1.5 sm:gap-2 whitespace-nowrap shrink-0">
+          class="tab-nav-btn py-2 sm:pb-2.5 px-3 sm:px-2.5 border-b-2 font-semibold text-xs sm:text-sm text-indigo-600 border-indigo-600 flex items-center gap-1.5 sm:gap-2 whitespace-nowrap shrink-0">
           <i data-lucide="table" class="w-4 h-4"></i> Data Grid
         </button>
 
         <!-- 2. Chart Studio (2D & 3D) -->
         <button onclick="switchTab('charts')" id="tabBtn-charts"
-          class="tab-nav-btn py-2.5 sm:pb-3 px-2 sm:px-1 border-b-2 font-semibold text-xs sm:text-sm text-slate-500 border-transparent hover:text-slate-700 hover:border-slate-300 flex items-center gap-1.5 sm:gap-2 whitespace-nowrap shrink-0">
+          class="tab-nav-btn py-2 sm:pb-2.5 px-3 sm:px-2.5 border-b-2 font-semibold text-xs sm:text-sm text-slate-500 border-transparent hover:text-slate-700 hover:border-slate-300 flex items-center gap-1.5 sm:gap-2 whitespace-nowrap shrink-0">
           <i data-lucide="bar-chart-3" class="w-4 h-4"></i> Chart Studio
         </button>
 
         <!-- 3D Chart View (Dedicated WebGL 3D Visualization) -->
         <button onclick="switchTab('3dchart')" id="tabBtn-3dchart"
-          class="tab-nav-btn py-2.5 sm:pb-3 px-2 sm:px-1 border-b-2 font-semibold text-xs sm:text-sm text-slate-500 border-transparent hover:text-slate-700 hover:border-slate-300 flex items-center gap-1.5 sm:gap-2 whitespace-nowrap shrink-0 group transition">
+          class="tab-nav-btn py-2 sm:pb-2.5 px-3 sm:px-2.5 border-b-2 font-semibold text-xs sm:text-sm text-slate-500 border-transparent hover:text-slate-700 hover:border-slate-300 flex items-center gap-1.5 sm:gap-2 whitespace-nowrap shrink-0 group transition">
           <i data-lucide="box" class="w-4 h-4 text-indigo-500 group-hover:scale-110 transition-transform"></i>
           <span>3D Chart View</span>
           <span class="px-1.5 py-0.5 text-[9px] font-extrabold bg-indigo-100 text-indigo-700 rounded-full tracking-wider">3D</span>
@@ -339,7 +359,7 @@
 
         <!-- 3. AutoML & Predictive Analytics Studio (Flagship AIML Minor Project) -->
         <button onclick="switchTab('automl')" id="tabBtn-automl"
-          class="tab-nav-btn py-2.5 sm:pb-3 px-2 sm:px-1 border-b-2 font-semibold text-xs sm:text-sm text-slate-500 border-transparent hover:text-slate-700 hover:border-slate-300 flex items-center gap-1.5 sm:gap-2 whitespace-nowrap shrink-0 group transition">
+          class="tab-nav-btn py-2 sm:pb-2.5 px-3 sm:px-2.5 border-b-2 font-semibold text-xs sm:text-sm text-slate-500 border-transparent hover:text-slate-700 hover:border-slate-300 flex items-center gap-1.5 sm:gap-2 whitespace-nowrap shrink-0 group transition">
           <i data-lucide="sparkles" class="w-4 h-4 text-violet-600 group-hover:scale-110 transition-transform"></i>
           <span>AutoML Studio</span>
           <span class="px-1.5 py-0.5 text-[9px] font-extrabold bg-violet-100 text-violet-700 rounded-full tracking-wider">AI/ML</span>
@@ -347,46 +367,53 @@
 
         <!-- 3. Category Summary & Averages -->
         <button onclick="switchTab('category')" id="tabBtn-category"
-          class="tab-nav-btn py-2.5 sm:pb-3 px-2 sm:px-1 border-b-2 font-semibold text-xs sm:text-sm text-slate-500 border-transparent hover:text-slate-700 hover:border-slate-300 flex items-center gap-1.5 sm:gap-2 whitespace-nowrap shrink-0">
+          class="tab-nav-btn py-2 sm:pb-2.5 px-3 sm:px-2.5 border-b-2 font-semibold text-xs sm:text-sm text-slate-500 border-transparent hover:text-slate-700 hover:border-slate-300 flex items-center gap-1.5 sm:gap-2 whitespace-nowrap shrink-0">
           <i data-lucide="split" class="w-4 h-4"></i> Category Summary
         </button>
 
         <!-- 4. Pivot Matrix -->
         <button onclick="switchTab('pivot')" id="tabBtn-pivot"
-          class="tab-nav-btn py-2.5 sm:pb-3 px-2 sm:px-1 border-b-2 font-semibold text-xs sm:text-sm text-slate-500 border-transparent hover:text-slate-700 hover:border-slate-300 flex items-center gap-1.5 sm:gap-2 whitespace-nowrap shrink-0">
+          class="tab-nav-btn py-2 sm:pb-2.5 px-3 sm:px-2.5 border-b-2 font-semibold text-xs sm:text-sm text-slate-500 border-transparent hover:text-slate-700 hover:border-slate-300 flex items-center gap-1.5 sm:gap-2 whitespace-nowrap shrink-0">
           <i data-lucide="grid" class="w-4 h-4"></i> Pivot Table
         </button>
 
         <!-- 5. Sheet Compare & Diff Engine (NEW) -->
         <button onclick="switchTab('diff')" id="tabBtn-diff"
-          class="tab-nav-btn py-2.5 sm:pb-3 px-2 sm:px-1 border-b-2 font-semibold text-xs sm:text-sm text-slate-500 border-transparent hover:text-slate-700 hover:border-slate-300 flex items-center gap-1.5 sm:gap-2 whitespace-nowrap shrink-0">
+          class="tab-nav-btn py-2 sm:pb-2.5 px-3 sm:px-2.5 border-b-2 font-semibold text-xs sm:text-sm text-slate-500 border-transparent hover:text-slate-700 hover:border-slate-300 flex items-center gap-1.5 sm:gap-2 whitespace-nowrap shrink-0">
           <i data-lucide="git-compare" class="w-4 h-4 text-emerald-600"></i> Sheet Diff
         </button>
 
         <!-- 6. Statistical Anomaly & Outliers (NEW) -->
         <button onclick="switchTab('anomalies')" id="tabBtn-anomalies"
-          class="tab-nav-btn py-2.5 sm:pb-3 px-2 sm:px-1 border-b-2 font-semibold text-xs sm:text-sm text-slate-500 border-transparent hover:text-slate-700 hover:border-slate-300 flex items-center gap-1.5 sm:gap-2 whitespace-nowrap shrink-0">
+          class="tab-nav-btn py-2 sm:pb-2.5 px-3 sm:px-2.5 border-b-2 font-semibold text-xs sm:text-sm text-slate-500 border-transparent hover:text-slate-700 hover:border-slate-300 flex items-center gap-1.5 sm:gap-2 whitespace-nowrap shrink-0">
           <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-500"></i> Outliers & AI
         </button>
 
         <!-- 7. Data Hygiene & Stats -->
         <button onclick="switchTab('hygiene')" id="tabBtn-hygiene"
-          class="tab-nav-btn py-2.5 sm:pb-3 px-2 sm:px-1 border-b-2 font-semibold text-xs sm:text-sm text-slate-500 border-transparent hover:text-slate-700 hover:border-slate-300 flex items-center gap-1.5 sm:gap-2 whitespace-nowrap shrink-0">
+          class="tab-nav-btn py-2 sm:pb-2.5 px-3 sm:px-2.5 border-b-2 font-semibold text-xs sm:text-sm text-slate-500 border-transparent hover:text-slate-700 hover:border-slate-300 flex items-center gap-1.5 sm:gap-2 whitespace-nowrap shrink-0">
           <i data-lucide="shield-check" class="w-4 h-4"></i> Data Hygiene
         </button>
 
         <!-- 8. Upload History (MongoDB) -->
         <button onclick="switchTab('history')" id="tabBtn-history"
-          class="tab-nav-btn py-2.5 sm:pb-3 px-2 sm:px-1 border-b-2 font-semibold text-xs sm:text-sm text-slate-500 border-transparent hover:text-slate-700 hover:border-slate-300 flex items-center gap-1.5 sm:gap-2 whitespace-nowrap shrink-0">
+          class="tab-nav-btn py-2 sm:pb-2.5 px-3 sm:px-2.5 border-b-2 font-semibold text-xs sm:text-sm text-slate-500 border-transparent hover:text-slate-700 hover:border-slate-300 flex items-center gap-1.5 sm:gap-2 whitespace-nowrap shrink-0">
           <i data-lucide="history" class="w-4 h-4"></i> History
         </button>
 
         <!-- 9. Admin Control Panel (Only for Admin) -->
         <button onclick="switchTab('admin')" id="tabBtn-admin"
-          class="hidden tab-nav-btn py-2.5 sm:pb-3 px-2 sm:px-1 border-b-2 font-semibold text-xs sm:text-sm text-amber-600 border-transparent hover:text-amber-700 hover:border-amber-400 flex items-center gap-1.5 sm:gap-2 whitespace-nowrap shrink-0">
+          class="hidden tab-nav-btn py-2 sm:pb-2.5 px-3 sm:px-2.5 border-b-2 font-semibold text-xs sm:text-sm text-amber-600 border-transparent hover:text-amber-700 hover:border-amber-400 flex items-center gap-1.5 sm:gap-2 whitespace-nowrap shrink-0">
           <i data-lucide="shield-alert" class="w-4 h-4"></i> Admin Panel
         </button>
       </nav>
+
+      <!-- Right Scroll Arrow -->
+      <button onclick="scrollTabsNav(260)" id="tabNavScrollRightBtn"
+        aria-label="Scroll tabs right" title="Scroll tabs right"
+        class="shrink-0 w-8 h-8 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-600 hover:text-indigo-600 transition shadow-xs active:scale-90 cursor-pointer">
+        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+      </button>
     </div>
 
     <!-- TAB 1: DATA GRID & FILTER -->

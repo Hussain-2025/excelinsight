@@ -261,6 +261,20 @@ window.addEventListener('DOMContentLoaded', () => {
   };
   applyHashTab();
   window.addEventListener('hashchange', applyHashTab);
+
+  // Tabs Sidescroller Mouse Wheel & Dynamic Navigation
+  const tabsNav = document.getElementById('platformTabsNav');
+  if (tabsNav) {
+    tabsNav.addEventListener('wheel', (e) => {
+      if (e.deltaY !== 0) {
+        e.preventDefault();
+        tabsNav.scrollLeft += e.deltaY;
+        updateTabsNavScrollButtons();
+      }
+    }, { passive: false });
+    window.addEventListener('resize', updateTabsNavScrollButtons);
+    setTimeout(updateTabsNavScrollButtons, 300);
+  }
 });
 
 function toggleSampleMenu(e) {
@@ -1195,6 +1209,9 @@ function switchTab(tabId) {
   if (targetBtn) {
     targetBtn.classList.add('text-indigo-600', 'border-indigo-600');
     targetBtn.classList.remove('text-slate-500', 'border-transparent');
+    try {
+      targetBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    } catch (_) {}
   }
 
   if (tabId === 'category' && AppState.categoryChartInstance) {
@@ -1228,7 +1245,48 @@ function switchTab(tabId) {
     fetchUploadHistory();
   }
 
+  setTimeout(updateTabsNavScrollButtons, 120);
   lucide.createIcons();
+}
+
+function scrollTabsNav(offset) {
+  const nav = document.getElementById('platformTabsNav');
+  if (nav) {
+    nav.scrollBy({ left: offset, behavior: 'smooth' });
+    setTimeout(updateTabsNavScrollButtons, 220);
+  }
+}
+
+function updateTabsNavScrollButtons() {
+  const nav = document.getElementById('platformTabsNav');
+  const leftBtn = document.getElementById('tabNavScrollLeftBtn');
+  const rightBtn = document.getElementById('tabNavScrollRightBtn');
+  if (!nav || !leftBtn || !rightBtn) return;
+
+  const maxScroll = nav.scrollWidth - nav.clientWidth;
+  if (maxScroll <= 2) {
+    leftBtn.classList.add('opacity-30', 'cursor-not-allowed');
+    rightBtn.classList.add('opacity-30', 'cursor-not-allowed');
+    leftBtn.disabled = true;
+    rightBtn.disabled = true;
+    return;
+  }
+
+  if (nav.scrollLeft > 6) {
+    leftBtn.classList.remove('opacity-30', 'cursor-not-allowed');
+    leftBtn.disabled = false;
+  } else {
+    leftBtn.classList.add('opacity-30', 'cursor-not-allowed');
+    leftBtn.disabled = true;
+  }
+
+  if (nav.scrollLeft < maxScroll - 6) {
+    rightBtn.classList.remove('opacity-30', 'cursor-not-allowed');
+    rightBtn.disabled = false;
+  } else {
+    rightBtn.classList.add('opacity-30', 'cursor-not-allowed');
+    rightBtn.disabled = true;
+  }
 }
 
 function showToast(msg, isError = false) {

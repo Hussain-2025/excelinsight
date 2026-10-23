@@ -1,3 +1,16 @@
+/* Global Viewport & Horizontal Overflow Protection */
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+  width: 100% !important;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 /* Clean custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
@@ -14,7 +27,37 @@
   background: #94a3b8;
 }
 
-/* Mobile no-scrollbar utility for smooth swiping */
+/* Dedicated Visible Horizontal Sidescroller for Tabs Nav */
+.tabs-sidescroller {
+  overflow-x: auto !important;
+  scrollbar-width: thin !important;
+  scrollbar-color: #6366f1 #e2e8f0 !important;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+.tabs-sidescroller::-webkit-scrollbar {
+  height: 6px !important;
+  display: block !important;
+}
+
+.tabs-sidescroller::-webkit-scrollbar-track {
+  background: #f1f5f9 !important;
+  border-radius: 9999px;
+  margin: 0 4px;
+}
+
+.tabs-sidescroller::-webkit-scrollbar-thumb {
+  background: #6366f1 !important;
+  border-radius: 9999px;
+  border: 1px solid #e0e7ff;
+}
+
+.tabs-sidescroller::-webkit-scrollbar-thumb:hover {
+  background: #6366f1 !important;
+}
+
+/* Mobile no-scrollbar utility for small chips/tags */
 .no-scrollbar::-webkit-scrollbar {
   display: none !important;
   width: 0 !important;
