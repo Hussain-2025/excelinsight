@@ -50,3 +50,20 @@
 .transition-smooth {
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+/* 3D Visualizer Fullscreen Mode */
+.fullscreen-3d-active {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 99999 !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+}
+
+#threeJsCanvasContainer canvas,
+#dedicatedThreeJsCanvasContainer canvas {
+  outline: none;
+  display: block;
+}

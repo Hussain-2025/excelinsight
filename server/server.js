@@ -9,6 +9,7 @@ const authRoutes = require('./routes/auth');
 const uploadRoutes = require('./routes/uploads');
 const adminRoutes = require('./routes/admin');
 const aiRoutes = require('./routes/ai');
+const mlRoutes = require('./routes/ml');
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/uploads', uploadRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/ai', aiRoutes);
+app.use('/api/ml', mlRoutes);
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {
