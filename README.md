@@ -1,6 +1,6 @@
-﻿# Excel Insight — Full-Stack AI Enterprise Spreadsheet Analytics Platform
+# Data Vista — Full-Stack AI Enterprise Spreadsheet Analytics Platform
 
-Excel Insight is a modern, enterprise-grade Business Intelligence (BI) and Excel Analytics web application built on the **MERN** stack (MongoDB, Express, Vanilla JS / HTML5, Node.js) with **Google Gemini 3.8 Flash AI** and **Three.js 3D WebGL** visualizations.
+Data Vista is a modern, enterprise-grade Business Intelligence (BI) and Excel Analytics web application built on the **MERN** stack (MongoDB, Express, Vanilla JS / HTML5, Node.js) with **Google Gemini 3.8 Flash AI** and **Three.js 3D WebGL** visualizations.
 
 ## 🚀 Key Features
 

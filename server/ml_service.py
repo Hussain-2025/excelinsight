@@ -1,7 +1,7 @@
 """
-ExcelInsight Python ML Microservice (FastAPI + scikit-learn)
+Data Vista Python ML Microservice (FastAPI + scikit-learn)
 Dedicated Machine Learning Service for Tabular AutoML, Time-Series Forecasting & Model Inference
-As prescribed in the ExcelInsight AIML Project Assessment & Architecture Plan.
+As prescribed in the Data Vista AIML Project Assessment & Architecture Plan.
 """
 
 from fastapi import FastAPI, HTTPException, status
@@ -24,8 +24,8 @@ import os
 import datetime
 
 app = FastAPI(
-    title="ExcelInsight ML Microservice",
-    description="Dedicated scikit-learn AutoML & Forecasting Engine for ExcelInsight",
+    title="Data Vista ML Microservice",
+    description="Dedicated scikit-learn AutoML & Forecasting Engine for Data Vista",
     version="1.0.0"
 )
 
@@ -69,7 +69,7 @@ CACHE = {}
 def health():
     return {
         "status": "healthy",
-        "service": "ExcelInsight Python ML Microservice (FastAPI)",
+        "service": "Data Vista Python ML Microservice (FastAPI)",
         "timestamp": datetime.datetime.utcnow().isoformat(),
         "scikit_learn_ready": True
     }

@@ -1,7 +1,7 @@
 {
-  "name": "excelinsight-server",
+  "name": "datavista-server",
   "version": "1.0.0",
-  "description": "Backend API for Excel Insight MERN Analytics Platform",
+  "description": "Backend API for Data Vista MERN Analytics Platform",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

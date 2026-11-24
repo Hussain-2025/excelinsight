@@ -22,8 +22,8 @@ tailwind.config = {
 const AppState = {
   apiBaseUrl: (window.ENV && window.ENV.API_URL) ? window.ENV.API_URL : 'http://localhost:5050/api',
   auth: {
-    token: localStorage.getItem('excelinsight_token') || null,
-    user: JSON.parse(localStorage.getItem('excelinsight_user') || 'null')
+    token: localStorage.getItem('datavista_token') || localStorage.getItem('excelinsight_token') || null,
+    user: JSON.parse(localStorage.getItem('datavista_user') || localStorage.getItem('excelinsight_user') || 'null')
   },
   fileName: 'Sales_Performance_Q3.xlsx',
   activeSheet: 'Sales',
@@ -1130,7 +1130,7 @@ function downloadStudioChart() {
     const url = AppState.threeJs.renderer.domElement.toDataURL('image/png');
     const a = document.createElement('a');
     a.href = url;
-    a.download = `ExcelInsight_3D_${chartType}_${Date.now()}.png`;
+    a.download = `DataVista_3D_${chartType}_${Date.now()}.png`;
     a.click();
     showToast('3D WebGL chart snapshot downloaded as PNG');
     return;
@@ -1139,7 +1139,7 @@ function downloadStudioChart() {
   const url = AppState.studioChartInstance.toBase64Image();
   const a = document.createElement('a');
   a.href = url;
-  a.download = `ExcelInsight_Chart_${Date.now()}.png`;
+  a.download = `DataVista_Chart_${Date.now()}.png`;
   a.click();
   showToast('Chart snapshot downloaded as PNG');
 }
@@ -1188,7 +1188,7 @@ function exportCurrentData(format) {
     const ws = XLSX.utils.json_to_sheet(AppState.filteredRows);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, AppState.activeSheet);
-    XLSX.writeFile(wb, `ExcelInsight_${AppState.activeSheet}_${Date.now()}.${ext}`);
+    XLSX.writeFile(wb, `DataVista_${AppState.activeSheet}_${Date.now()}.${ext}`);
   }
   showToast(`Exported ${AppState.filteredRows.length} records to .${ext}`);
   document.getElementById('exportDropdownMenu').classList.add('hidden');
@@ -3216,7 +3216,7 @@ async function exportAnalysisReportPDF() {
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(16);
   doc.setFont('helvetica', 'bold');
-  doc.text('EXCEL INSIGHT — EXECUTIVE DATA REPORT', 14, 16);
+  doc.text('DATA VISTA — EXECUTIVE DATA REPORT', 14, 16);
 
   // Metadata
   doc.setTextColor(51, 65, 85);
@@ -3259,7 +3259,7 @@ async function exportAnalysisReportPDF() {
     doc.text(splitText, 14, 164);
   }
 
-  doc.save(`ExcelInsight_Report_${AppState.activeSheet}_${Date.now()}.pdf`);
+  doc.save(`DataVista_Report_${AppState.activeSheet}_${Date.now()}.pdf`);
   showToast('PDF Report downloaded successfully!');
   document.getElementById('exportDropdownMenu').classList.add('hidden');
 }
@@ -3290,7 +3290,7 @@ function switchAuthMode(mode) {
   document.getElementById('authNameGroup').classList.toggle('hidden', isLogin);
   document.getElementById('authRoleGroup').classList.toggle('hidden', isLogin);
   document.getElementById('authSubmitBtn').textContent = isLogin ? 'Sign In' : 'Create Account';
-  document.getElementById('authModalTitle').textContent = isLogin ? 'Sign in to Excel Insight' : 'Create your Account';
+  document.getElementById('authModalTitle').textContent = isLogin ? 'Sign in to Data Vista' : 'Create your Account';
 }
 
 async function handleAuthSubmit(e) {
@@ -3315,7 +3315,9 @@ async function handleAuthSubmit(e) {
       throw new Error(data.message || 'Authentication error');
     }
 
+    localStorage.setItem('datavista_token', data.token);
     localStorage.setItem('excelinsight_token', data.token);
+    localStorage.setItem('datavista_user', JSON.stringify(data.user));
     localStorage.setItem('excelinsight_user', JSON.stringify(data.user));
     AppState.auth.token = data.token;
     AppState.auth.user = data.user;
@@ -3332,7 +3334,9 @@ async function handleAuthSubmit(e) {
 }
 
 function handleUserLogout() {
+  localStorage.removeItem('datavista_token');
   localStorage.removeItem('excelinsight_token');
+  localStorage.removeItem('datavista_user');
   localStorage.removeItem('excelinsight_user');
   AppState.auth.token = null;
   AppState.auth.user = null;
@@ -5508,7 +5512,7 @@ function exportHoldoutPredictionsCsv() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `ExcelInsight_AutoML_Predictions_${Date.now()}.csv`;
+  a.download = `DataVista_AutoML_Predictions_${Date.now()}.csv`;
   a.click();
   URL.revokeObjectURL(url);
   showToast(`Exported ${preds.length} predictions to CSV`);
@@ -5522,7 +5526,7 @@ function exportMlReport() {
   }
 
   const auditData = {
-    platform: 'ExcelInsight Enterprise Analytics & AI Platform',
+    platform: 'Data Vista Enterprise Analytics & AI Platform',
     timestamp: new Date().toISOString(),
     taskType: automl.taskType,
     targetColumn: automl.targetColumn,
@@ -5539,7 +5543,7 @@ function exportMlReport() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `ExcelInsight_ML_Audit_${Date.now()}.json`;
+  a.download = `DataVista_ML_Audit_${Date.now()}.json`;
   a.click();
   URL.revokeObjectURL(url);
   showToast('Model audit JSON downloaded');

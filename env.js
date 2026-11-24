@@ -1,5 +1,5 @@
 // ==============================================================================
-// Excel Insight Frontend Environment Configuration
+// Data Vista Frontend Environment Configuration
 // ==============================================================================
 
 window.ENV = {

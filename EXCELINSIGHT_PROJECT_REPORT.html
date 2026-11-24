@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Data Vista Enterprise Platform: Complete Project Report</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+    @page {
+      size: A4;
+      margin: 18mm 14mm 18mm 14mm;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      color: #1e293b;
+      background: #ffffff;
+      line-height: 1.6;
+      font-size: 10pt;
+      margin: 0;
+      padding: 0;
+    }
+
+    @media print {
+      body {
+        color: #0f172a;
+      }
+      a {
+        text-decoration: none;
+        color: #3b82f6;
+      }
+      .no-print {
+        display: none;
+      }
+      .page-break {
+        page-break-before: always;
+      }
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      color: #0f172a;
+      font-weight: 700;
+      margin-top: 22px;
+      margin-bottom: 8px;
+      page-break-after: avoid;
+    }
+
+    h1 {
+      font-size: 18pt;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 6px;
+      margin-top: 30px;
+      color: #1e1b4b;
+    }
+
+    h2 {
+      font-size: 14pt;
+      border-bottom: 1px solid #cbd5e1;
+      padding-bottom: 4px;
+      margin-top: 24px;
+      color: #312e81;
+    }
+
+    h3 {
+      font-size: 11.5pt;
+      color: #4338ca;
+      margin-top: 18px;
+    }
+
+    h4 {
+      font-size: 10.5pt;
+      color: #0284c7;
+      margin-top: 14px;
+    }
+
+    p, li {
+      font-size: 9.5pt;
+      color: #334155;
+      line-height: 1.6;
+    }
+
+    ul, ol {
+      margin-top: 4px;
+      margin-bottom: 10px;
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 3px;
+    }
+
+    pre {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-family: 'JetBrains Mono', Consolas, 'Courier New', monospace;
+      font-size: 8pt;
+      line-height: 1.45;
+      overflow-x: auto;
+      border: 1px solid #334155;
+      page-break-inside: avoid;
+      margin: 12px 0;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', Consolas, 'Courier New', monospace;
+      font-size: 8.5pt;
+      background: #f1f5f9;
+      color: #0f172a;
+      padding: 2px 5px;
+      border-radius: 4px;
+      border: 1px solid #e2e8f0;
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+      border: none;
+      font-size: 8pt;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+      font-size: 8.5pt;
+      page-break-inside: avoid;
+    }
+
+    th {
+      background: #1e1b4b;
+      color: #ffffff;
+      padding: 8px 10px;
+      font-weight: 600;
+      text-align: left;
+      border: 1px solid #cbd5e1;
+    }
+
+    td {
+      padding: 7px 10px;
+      border: 1px solid #cbd5e1;
+      color: #1e293b;
+    }
+
+    tr:nth-child(even) td {
+      background: #f8fafc;
+    }
+
+    .lld-header-banner {
+      background: linear-gradient(135deg, #090d16 0%, #1e1b4b 50%, #312e81 100%);
+      padding: 22px;
+      border-radius: 10px;
+      color: #ffffff !important;
+      margin-bottom: 20px;
+      border: 1px solid #6366f1;
+    }
+    .lld-header-banner * {
+      color: #ffffff !important;
+    }
+    .lld-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      font-size: 7.5pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .badge-purple {
+      background: #4f46e5;
+      color: #e0e7ff !important;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <h1>🏛️ Data Vista Enterprise Platform: Complete Project Report</h1>
+<p><strong>Full-Stack AI Business Intelligence, 3D WebGL Analytics &amp; Tabular AutoML</strong></p>
+<hr>
+<div class="lld-header-banner">
+  <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+    <div>
+      <span class="lld-badge badge-purple">Executive Engineering & Architecture Report</span>
+      <h1 style="color: #ffffff; margin: 8px 0; font-size: 26px; font-weight: 800;">Data Vista: Features, Functionalities & Tech Stack</h1>
+      <p style="color: #c7d2fe; margin: 0; font-size: 13.5px;">A comprehensive, deep-dive technical audit of the Data Vista platform architecture, capabilities, and dependencies.</p>
+    </div>
+    <div style="font-family: monospace; font-size: 11.5px; color: #a5b4fc; background: rgba(0,0,0,0.35); padding: 12px 18px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15);">
+      <div>📁 Project: <b>Data Vista Platform</b></div>
+      <div>⚡ Stack: <b>MERN + WebGL (Three.js) + Google Gemini AI + Python ML (FastAPI)</b></div>
+      <div>📅 Date: <b>November 2026</b></div>
+      <div>🔒 Classification: <b>Enterprise Technical Specification</b></div>
+    </div>
+  </div>
+</div><hr>
+<h2>1. Executive Summary</h2>
+<p><strong>Data Vista</strong> is an enterprise-grade Business Intelligence (BI), Spreadsheet Analytics, and Tabular AutoML platform. It solves the friction between static tabular spreadsheets (<code>.xlsx</code>, <code>.xls</code>, <code>.csv</code>) and intelligent enterprise decision-making. </p>
+<p>Instead of requiring manual Excel manipulation or exporting data to third-party proprietary software, Data Vista enables users to ingest multi-sheet workbooks in-browser, run dynamic spreadsheet formulas, visualize complex multi-dimensional distributions in both <strong>2D (Chart.js)</strong> and <strong>3D WebGL (Three.js)</strong>, run automated <strong>statistical anomaly audits</strong>, train competitive <strong>tabular machine-learning models (Regression, Classification, Time-Series Forecasting)</strong>, and conduct conversational data inquiries using <strong>Natural Language Query (NLQ)</strong> powered by <strong>Google Gemini 3.8 Flash</strong>.</p>
+<p>The platform is designed with a <strong>Decoupled Client-Server Architecture</strong> supporting both standalone zero-dependency in-memory execution and scalable cloud-backed microservices.</p>
+<hr>
+<h2>2. Complete Technology Stack Matrix</h2>
+<p>The platform combines high-performance client-side computation with scalable backend API services and specialized machine-learning pipelines:</p>
+<h3>2.1 Frontend Client Layer</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Technology / Library</th>
+<th align="left">Version / Source</th>
+<th align="left">Architectural Purpose &amp; Responsibility</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>HTML5 &amp; Semantic DOM</strong></td>
+<td align="left">W3C Standard</td>
+<td align="left">Clean semantic layout, modal dialogues, responsive side drawers, and accessible controls.</td>
+</tr>
+<tr>
+<td align="left"><strong>Tailwind CSS</strong></td>
+<td align="left">CDN Extension</td>
+<td align="left">Utility-first responsive styling, dark/light contrast management, fluid grid layouts.</td>
+</tr>
+<tr>
+<td align="left"><strong>Vanilla JavaScript (ES6+)</strong></td>
+<td align="left">Native Modern JS</td>
+<td align="left">High-performance client-side controller; coordinates data flows without bulky framework overhead.</td>
+</tr>
+<tr>
+<td align="left"><strong>SheetJS (<code>xlsx</code>)</strong></td>
+<td align="left">0.18.5 (CDN)</td>
+<td align="left">Client-side spreadsheet workbook binary decoding, multi-sheet workbook parsing, and dynamic export.</td>
+</tr>
+<tr>
+<td align="left"><strong>Chart.js</strong></td>
+<td align="left">4.4.0 (UMD)</td>
+<td align="left">High-resolution 2D interactive canvas visualizations (Bar, Line, Area, Doughnut, Pie, Scatter, Radar).</td>
+</tr>
+<tr>
+<td align="left"><strong>Three.js &amp; OrbitControls</strong></td>
+<td align="left">r128 (CDN)</td>
+<td align="left">GPU-accelerated 3D WebGL column scene, dynamic lighting, ground shadow projection, and raycaster tooltips.</td>
+</tr>
+<tr>
+<td align="left"><strong>jsPDF &amp; html2canvas</strong></td>
+<td align="left">2.5.1 &amp; 1.4.1</td>
+<td align="left">High-fidelity executive PDF generation rendering dynamic charts, KPI cards, and AI narrative text.</td>
+</tr>
+<tr>
+<td align="left"><strong>Lucide Icons</strong></td>
+<td align="left">Latest (CDN)</td>
+<td align="left">Consistent, vector-based SVG iconography across navigational headers, buttons, and status indicators.</td>
+</tr>
+<tr>
+<td align="left"><strong>Google Fonts</strong></td>
+<td align="left">Inter &amp; JetBrains Mono</td>
+<td align="left">Corporate typographic hierarchy; high-contrast monospace font rendering for numbers and formula inputs.</td>
+</tr>
+</tbody></table>
+<h3>2.2 Backend API Layer (Node.js &amp; Express)</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Technology / Module</th>
+<th align="left">Version</th>
+<th align="left">Architectural Purpose &amp; Responsibility</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Node.js</strong></td>
+<td align="left">&gt;= 18.x LTS</td>
+<td align="left">Asynchronous runtime powering REST endpoints, authentication pipelines, and data streaming.</td>
+</tr>
+<tr>
+<td align="left"><strong>Express.js</strong></td>
+<td align="left">4.19.2</td>
+<td align="left">Routing engine, HTTP middleware pipeline, JSON/URL-encoded payload processing with 50MB limits.</td>
+</tr>
+<tr>
+<td align="left"><strong>Mongoose ODM</strong></td>
+<td align="left">8.3.4</td>
+<td align="left">Schema definitions, validation, and object modeling for Users, Uploads, and AutoML Training Jobs.</td>
+</tr>
+<tr>
+<td align="left"><strong>JSON Web Tokens (<code>jsonwebtoken</code>)</strong></td>
+<td align="left">9.0.2</td>
+<td align="left">Stateless, digitally-signed JWT authentication ensuring secure, role-governed API access.</td>
+</tr>
+<tr>
+<td align="left"><strong>bcryptjs</strong></td>
+<td align="left">2.4.3</td>
+<td align="left">Cryptographic salt generation and one-way password hashing (10 salt rounds) before database storage.</td>
+</tr>
+<tr>
+<td align="left"><strong>CORS &amp; Dotenv</strong></td>
+<td align="left">2.8.5 &amp; 16.4.5</td>
+<td align="left">Cross-Origin Resource Sharing control and environment variable lifecycle management.</td>
+</tr>
+<tr>
+<td align="left"><strong>Native Mathematical Engine</strong></td>
+<td align="left">Custom JS</td>
+<td align="left">Pure JavaScript matrix math engine powering OLS, Ridge, Decision Trees, and Holt-Winters forecasting.</td>
+</tr>
+</tbody></table>
+<h3>2.3 Generative AI Engine (Google Gemini)</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Technology / Service</th>
+<th align="left">Model Endpoint</th>
+<th align="left">Architectural Purpose &amp; Responsibility</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Google Gemini API</strong></td>
+<td align="left"><code>gemini-3.8-flash</code></td>
+<td align="left">Primary LLM engine for multi-attribute spreadsheet summarization and NLQ data querying.</td>
+</tr>
+<tr>
+<td align="left"><strong>Fallback Cascade</strong></td>
+<td align="left"><code>gemini-3.7-flash</code> &amp; <code>gemini-3.5-flash</code></td>
+<td align="left">Automated fault-tolerant failover chain ensuring zero downtime during API updates or quota transitions.</td>
+</tr>
+<tr>
+<td align="left"><strong>Mathematical Fallback</strong></td>
+<td align="left">Internal Rule Engine</td>
+<td align="left">Offline statistical fallback answering queries with exact aggregations if external network connectivity fails.</td>
+</tr>
+</tbody></table>
+<h3>2.4 Dedicated Python ML Microservice (FastAPI + scikit-learn)</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Technology / Library</th>
+<th align="left">Version</th>
+<th align="left">Architectural Purpose &amp; Responsibility</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>FastAPI</strong></td>
+<td align="left">&gt;= 0.110.0</td>
+<td align="left">High-concurrency ASGI Python microservice dedicated to intensive tabular AutoML workloads.</td>
+</tr>
+<tr>
+<td align="left"><strong>Uvicorn</strong></td>
+<td align="left">&gt;= 0.29.0</td>
+<td align="left">High-performance lightning-fast ASGI web server implementation.</td>
+</tr>
+<tr>
+<td align="left"><strong>Pandas &amp; NumPy</strong></td>
+<td align="left">2.2+ &amp; 1.26+</td>
+<td align="left">Fast tabular DataFrame manipulation, matrix arithmetic, vectorization, and chronological sorting.</td>
+</tr>
+<tr>
+<td align="left"><strong>scikit-learn</strong></td>
+<td align="left">&gt;= 1.4.0</td>
+<td align="left">Industrial ML pipelines: SimpleImputer, StandardScaler, OneHotEncoder, Random Forest, Ridge, HistGradientBoosting.</td>
+</tr>
+<tr>
+<td align="left"><strong>Joblib</strong></td>
+<td align="left">&gt;= 1.4.0</td>
+<td align="left">Serialization and disk persistence of trained pipeline artifacts for instant inference.</td>
+</tr>
+<tr>
+<td align="left"><strong>Pydantic</strong></td>
+<td align="left">&gt;= 2.7.0</td>
+<td align="left">Strict request/response payload validation and schema enforcement.</td>
+</tr>
+</tbody></table>
+<h3>2.5 Database &amp; Cloud Storage</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Technology</th>
+<th align="left">Implementation</th>
+<th align="left">Architectural Purpose &amp; Responsibility</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>MongoDB Atlas</strong></td>
+<td align="left">Cloud Replica Set</td>
+<td align="left">Persistent document store for user credentials, uploaded dataset schemas, and historical training jobs.</td>
+</tr>
+<tr>
+<td align="left"><strong>Client LocalStorage</strong></td>
+<td align="left">Browser Storage API</td>
+<td align="left">Client-side caching of active JWT tokens, user display names, and theme preferences.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>3. End-to-End System Architecture</h2>
+<pre><code>+--------------------------------------------------------------------------------------------------+
+|                                    CLIENT APPLICATION (Browser)                                  |
+|                                                                                                  |
+|   +---------------------+   +---------------------+   +--------------------+   +---------------+ |
+|   | SheetJS (.xlsx/.csv)|   | Formula Bar (fx)    |   | 2D Chart Studio    |   | Three.js 3D   | |
+|   | Multi-Sheet Parser  |   | Native Calc Engine  |   | (Chart.js Engine)  |   | WebGL Bar Grid| |
+|   +---------------------+   +---------------------+   +--------------------+   +---------------+ |
+|              |                         |                        |                      |         |
+|              +-------------------------+------------------------+----------------------+         |
+|                                                |                                                 |
+|                                    +-----------------------+                                     |
+|                                    | AppState (Flux Store) |                                     |
+|                                    +-----------------------+                                     |
++------------------------------------------------|-------------------------------------------------+
+                                                 | REST / JWT (HTTP JSON)
+                                                 v
++--------------------------------------------------------------------------------------------------+
+|                                 BACKEND API SERVER (Node.js / Express)                           |
+|                                                                                                  |
+|   +------------------------------------+   +-------------------------------------------------+   |
+|   | /api/auth                          |   | /api/ai                                         |   |
+|   | JWT Protection &amp; User Sign-in      |   | Prompt Construction, Fallback Chain, NLQ Chat   |   |
+|   +------------------------------------+   +-------------------------------------------------+   |
+|   | /api/uploads                       |   | /api/ml                                         |   |
+|   | Dataset Metadata &amp; Cloud Restore   |   | Pure JS Regression, Classification, Holt-Winters|   |
+|   +------------------------------------+   +-------------------------------------------------+   |
+|   | /api/admin                         |   | Database ODM: Mongoose                          |   |
+|   | Telemetry, Storage, User Audit     |   | User, Upload, MLJob, MLModel Collections        |   |
+|   +------------------------------------+   +-------------------------------------------------+   |
++------------------------------------------------|----------------------------------|--------------+
+                                                 |                                  |
+                      Delegated Python Microservice (Port 8000)             External Cloud API
+                                                 |                                  |
+                                                 v                                  v
+                            +--------------------------+               +--------------------------+
+                            | FastAPI + scikit-learn   |               | Google Gemini AI         |
+                            | (Pandas / Joblib Models) |               | (3.8 Flash LLM API)      |
+                            +--------------------------+               +--------------------------+
+</code></pre>
+<hr>
+<h2>4. Comprehensive Feature &amp; Functionality Catalog</h2>
+<p>The platform is structured into <strong>16 specialized feature modules</strong>, each providing comprehensive business intelligence capabilities:</p>
+<hr>
+<h3>Module 1: Universal Data Ingestion &amp; Multi-Sheet Navigation</h3>
+<ul>
+<li><strong>Local Client-Side Parsing</strong>: Users upload <code>.xlsx</code>, <code>.xls</code>, or <code>.csv</code> spreadsheets directly into the browser. SheetJS decodes binary streams into memory instantly without round-trip network delays.</li>
+<li><strong>Dynamic Multi-Sheet Tab Navigation</strong>: If a workbook contains multiple worksheets (e.g., <em>Sales</em>, <em>Inventory</em>, <em>Expenses</em>), the system detects all sheet manifests and renders interactive navigation pills. Clicking any sheet dynamically hot-swaps the active dataset.</li>
+<li><strong>5 Pre-Loaded Demonstration Datasets</strong>:<ol>
+<li><strong>E-Commerce &amp; Orders</strong>: Sales revenue, shipping modes, customer segments, profit margins.</li>
+<li><strong>Student Academic Marks</strong>: Course subjects, exam scores, semester credits, performance tiers.</li>
+<li><strong>Employee HR Directory</strong>: Department hierarchy, compensation structures, office locations.</li>
+<li><strong>Customer Churn &amp; Retention</strong>: Account tenure, monthly spend, contract duration, churn labels (ideal for binary classification).</li>
+<li><strong>Monthly Revenue &amp; Demand</strong>: 24-month chronological sequence (ideal for time-series forecasting).</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h3>Module 2: Interactive Data Grid &amp; Inline Cell Editing</h3>
+<ul>
+<li><strong>High-Performance Tabular Grid</strong>: Renders rows with custom column badges indicating data types (<code>ABC</code> for categorical/text strings, <code>123</code> for numeric values).</li>
+<li><strong>Live Double-Click Inline Cell Editing</strong>:<ul>
+<li>Double-clicking any grid cell turns it into an editable input field.</li>
+<li>On commit, the system updates <code>AppState.currentRows</code>, triggers dynamic re-profiling of column bounds, recalculates summary statistics, and propagates updates across active 2D and 3D visual charts.</li>
+</ul>
+</li>
+<li><strong>Multi-Column Filtering &amp; Global Search</strong>: Real-time debounced search queries filter across all columns simultaneously, accompanied by an isolated column dropdown selector.</li>
+<li><strong>Configurable Pagination</strong>: Supports 25, 50, and 100 rows per page with responsive page controls.</li>
+</ul>
+<hr>
+<h3>Module 3: Native Spreadsheet Formula Bar (<code>fx</code>)</h3>
+<ul>
+<li><strong>Excel-Compatible Formula Evaluator</strong>: An integrated formula bar at the top of the workspace allows users to write standard spreadsheet expressions.</li>
+<li><strong>Supported Built-in Formulas</strong>:<ul>
+<li><code>=SUM(ColumnName)</code>: Sums all valid numeric values in the specified column.</li>
+<li><code>=AVERAGE(ColumnName)</code>: Calculates the arithmetic mean.</li>
+<li><code>=COUNT(ColumnName)</code>: Computes the number of non-empty records.</li>
+<li>Custom arithmetic combinations (e.g., <code>=SUM(Sales) - SUM(Cost)</code>).</li>
+</ul>
+</li>
+<li><strong>Instant Result Badging</strong>: Outputs calculated values in a dedicated high-contrast status badge.</li>
+</ul>
+<hr>
+<h3>Module 4: Real-Time Dynamic KPI Metric Cards</h3>
+<ul>
+<li>Four automated executive metric cards display high-level summaries that update dynamically with every filter or cell modification:<ol>
+<li><strong>Total Records</strong>: Reflects the current row count in the active sheet or filtered view.</li>
+<li><strong>Dimensions</strong>: Quantifies total available columns.</li>
+<li><strong>Primary Metric (Driver)</strong>: Auto-detects the highest-variance numerical column and computes its total summation.</li>
+<li><strong>Average Value</strong>: Displays the arithmetic mean of the primary numerical indicator.</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h3>Module 5: 2D Chart Studio (Chart.js Engine)</h3>
+<ul>
+<li><strong>7 Visualization Topologies</strong>:<ul>
+<li><strong>Vertical Bar Chart</strong>: Categorical comparisons and grouped distributions.</li>
+<li><strong>Horizontal / Line Chart</strong>: Trend trajectories and chronological movements.</li>
+<li><strong>Area Trend Chart</strong>: Volume and cumulative growth visualization.</li>
+<li><strong>Doughnut Chart</strong>: Proportional segment allocation with hollow center.</li>
+<li><strong>Pie Chart</strong>: Classical market share and percentage breakdown.</li>
+<li><strong>Scatter Plot</strong>: Correlation analysis between two continuous numerical variables.</li>
+<li><strong>Radar Matrix</strong>: Multi-attribute multidimensional comparative profiling.</li>
+</ul>
+</li>
+<li><strong>Customizable Aggregation Engines</strong>: Allows grouping categorical dimensions by <code>SUM</code>, <code>AVERAGE</code>, <code>COUNT</code>, <code>MAX</code>, or <code>MIN</code>.</li>
+<li><strong>Image Export</strong>: Generates and downloads crisp PNG snapshots of active visual charts.</li>
+</ul>
+<hr>
+<h3>Module 6: Three.js 3D WebGL Column Grid Visualizer</h3>
+<ul>
+<li><strong>GPU-Accelerated 3D Scene</strong>: Embeds a dedicated WebGL canvas rendered via Three.js (r128) for high-impact spatial data inspection.</li>
+<li><strong>Orbital Controls &amp; Interaction</strong>:<ul>
+<li>360-degree orbital mouse rotation, smooth camera pitch, and zoom controls.</li>
+<li>Interactive Raycaster detecting cursor collision with individual 3D columns, displaying hover tooltips with category and exact metric value.</li>
+</ul>
+</li>
+<li><strong>Visual Styling &amp; Customization</strong>:<ul>
+<li><strong>Color Palettes</strong>: Cyber (indigo/purple), Neon (cyan/magenta), Dark, and Classic.</li>
+<li><strong>Height Scale Slider</strong>: Adjusts 3D bar height dynamically for high or low variance datasets.</li>
+<li><strong>Wireframe Toggle</strong>: Switches mesh geometry to technical wireframe outlines.</li>
+<li><strong>Camera Controls</strong>: Auto-rotation speed slider and 1-click Fullscreen expansion.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3>Module 7: AutoML &amp; Predictive Analytics Studio</h3>
+<p>A complete in-browser machine-learning studio supporting three enterprise workflows:</p>
+<h4>1. Tabular Regression Engine</h4>
+<ul>
+<li><strong>Algorithms Evaluated</strong>:<ul>
+<li><em>Baseline</em>: Dummy Mean Regressor (benchmarks minimum baseline performance)</li>
+<li><em>Linear Models</em>: Ordinary Least Squares (OLS) &amp; Ridge Regression (L2 regularized)</li>
+<li><em>Ensembles</em>: Random Forest Regressor &amp; Histogram Gradient Boosting</li>
+</ul>
+</li>
+<li><strong>Evaluation Metrics</strong>: Mean Absolute Error (MAE), Root Mean Squared Error (RMSE), and Coefficient of Determination ($R^2$).</li>
+<li><strong>Explainable AI (XAI)</strong>: Generates feature importance charts illustrating the percentage impact of each feature column on the target prediction.</li>
+</ul>
+<h4>2. Tabular Classification Engine</h4>
+<ul>
+<li><strong>Algorithms Evaluated</strong>:<ul>
+<li><em>Baseline</em>: Majority Class Dummy Classifier</li>
+<li><em>Linear Models</em>: Multinomial Logistic Regression</li>
+<li><em>Ensembles</em>: Random Forest Classifier &amp; Histogram Gradient Boosting Classifier</li>
+</ul>
+</li>
+<li><strong>Evaluation Metrics</strong>: Accuracy (%), Macro-averaged Precision, Recall, and F1-Score.</li>
+<li><strong>Full Confusion Matrix</strong>: Renders a complete interactive $N 	imes N$ matrix showing true positive, false positive, true negative, and false negative distributions.</li>
+</ul>
+<h4>3. Chronological Time-Series Forecasting</h4>
+<ul>
+<li><strong>Algorithm</strong>: Exponential Smoothing with Trend (<strong>Holt-Winters Linear Model</strong>) evaluated against a Naive Persistence Baseline.</li>
+<li><strong>Strict Leakage Prevention</strong>: Chronologically splits data without shuffling to preserve temporal integrity.</li>
+<li><strong>Horizon &amp; Confidence Bounds</strong>: Projects future values across 1 to 24 configurable horizon periods with <strong>95% Confidence Interval error bands</strong> (Upper Bound and Lower Bound) and trend direction flags (<em>Upward Growth</em>, <em>Declining</em>, or <em>Stable</em>).</li>
+</ul>
+<hr>
+<h3>Module 8: Natural Language Query (NLQ) &quot;Ask AI Data&quot; Chat Assistant</h3>
+<ul>
+<li><strong>Google Gemini 3.8 Flash Integration</strong>: Accessible via the dedicated header chat drawer. Users can ask conversational questions about their spreadsheet in plain English.</li>
+<li><strong>Context Injection Architecture</strong>:<ul>
+<li>Automatically packages column schemas, statistical summaries, sample rows, and previous insights into a structured LLM system prompt.</li>
+</ul>
+</li>
+<li><strong>Actionable AI Responses</strong>:<ul>
+<li>Generates clear, authoritative natural-language answers with exact figures.</li>
+<li>Recommends optimal visual chart parameters (<code>type</code>, <code>x</code>, <code>y</code>, <code>agg</code>) that can be applied with a single click.</li>
+<li>Recommends column search filters to isolate relevant subsets immediately.</li>
+</ul>
+</li>
+<li><strong>Resilient Fallback</strong>: Includes a built-in mathematical parser that answers aggregation, min/max, and summary questions even when external API keys or networks are offline.</li>
+</ul>
+<hr>
+<h3>Module 9: Automated AI Executive Intelligence Report</h3>
+<ul>
+<li><strong>One-Click Business Intelligence Summary</strong>:<ul>
+<li><strong>Key Overview</strong>: Executive summary of what the dataset represents.</li>
+<li><strong>Standout Trends &amp; Outliers</strong>: Highlighting dominant metrics, distribution spreads, and negative values.</li>
+<li><strong>Strategic Recommendations</strong>: 2–3 actionable next steps for operational leadership.</li>
+</ul>
+</li>
+<li>Includes quick copy-to-clipboard functionality and automated embedding into executive PDF exports.</li>
+</ul>
+<hr>
+<h3>Module 10: Statistical Anomaly &amp; Outlier Detection</h3>
+<ul>
+<li>Automated dual-algorithm detection engine identifying suspicious or abnormal records:<ol>
+<li><strong>Gaussian Z-Score Method</strong>: Identifies data points where standard deviation distance $|Z| ge 2.0$.</li>
+<li><strong>Tukey&#39;s Interquartile Range (IQR)</strong>: Non-parametric detection flagging points outside the interval $[Q_1 - 1.5 	imes IQR, Q_3 + 1.5 	imes IQR]$.</li>
+</ol>
+</li>
+<li>Includes automated boundary clamping, visual table row badges, and summary counts of anomalous data points.</li>
+</ul>
+<hr>
+<h3>Module 11: Dual-Sheet &amp; Revision Diff Engine</h3>
+<ul>
+<li>Solves spreadsheet versioning challenges by comparing two worksheets or dataset revisions side by side.</li>
+<li><strong>Differential Detection</strong>:<ul>
+<li><strong>Added Records</strong>: Rows present in the revised sheet that did not exist in the baseline.</li>
+<li><strong>Deleted Records</strong>: Rows removed between revisions.</li>
+<li><strong>Modified Cells</strong>: Modified values highlighted with hover tooltips showing old value, new value, and absolute/percentage deltas.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3>Module 12: Category Summary &amp; Aggregation Studio</h3>
+<ul>
+<li>Automatically identifies categorical dimensions (e.g., <em>Region</em>, <em>Department</em>, <em>Product Category</em>) and groups associated numerical metrics.</li>
+<li>Computes group-level <strong>Sum</strong>, <strong>Average</strong>, <strong>Minimum</strong>, and <strong>Maximum</strong> metrics with visual proportion bars.</li>
+</ul>
+<hr>
+<h3>Module 13: 2D Pivot Table Matrix</h3>
+<ul>
+<li>Enterprise cross-tabulation matrix allowing users to map one dimension along rows and another along columns.</li>
+<li>Dynamically aggregates intersecting cell values using selectable mathematical operations and calculates row-level and column-level grand totals.</li>
+</ul>
+<hr>
+<h3>Module 14: Data Hygiene &amp; Column Profiling Scorecard</h3>
+<ul>
+<li>Real-time diagnostic scorecard auditing tabular data quality:<ul>
+<li>Missing and null value percentages per column.</li>
+<li>Inferred data types (numeric, categorical, boolean, datetime).</li>
+<li>Cardinality / unique value counts.</li>
+<li>Descriptive metrics: Mean, Median, Standard Deviation, Min, Max.</li>
+<li><strong>Overall Data Hygiene Score (0–100%)</strong> alerting users to data quality risks prior to ML model training.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3>Module 15: Multi-Format Data Export &amp; Executive PDF Reporting</h3>
+<ul>
+<li><strong>Raw Data Exports</strong>: Instant client-side generation and download of active/filtered datasets as:<ul>
+<li>Microsoft Excel Workbook (<code>.xlsx</code>)</li>
+<li>Comma-Separated Values (<code>.csv</code>)</li>
+<li>JavaScript Object Notation (<code>.json</code>)</li>
+</ul>
+</li>
+<li><strong>Executive PDF Report Generator</strong>:<ul>
+<li>Uses <code>jsPDF</code> and <code>html2canvas</code> to compile a multi-page executive document.</li>
+<li>Embeds document metadata, active KPI snapshots, high-resolution chart renders, and the Gemini AI Executive Intelligence summary.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3>Module 16: Authentication, RBAC &amp; Admin Governance</h3>
+<ul>
+<li><strong>Stateless JWT Security</strong>: Passwords salted and hashed with <code>bcryptjs</code> (10 rounds); tokens verified via Express middlewares.</li>
+<li><strong>Guest Mode Support</strong>: Users can utilize all spreadsheet analysis, formula, chart, and ML features without signing in.</li>
+<li><strong>Cloud History Persistence</strong>: Authenticated users have their uploads and AutoML training jobs automatically saved to MongoDB Atlas for one-click restoration.</li>
+<li><strong>Admin Control Panel</strong>: Restricted to accounts with the <code>admin</code> role:<ul>
+<li>System telemetry: Total users, total files, total rows processed, storage volume consumed.</li>
+<li>User management directory auditing registration timestamps and upload activity.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2>5. Architectural Quality Attributes &amp; Design Principles</h2>
+<ol>
+<li><strong>Zero Client-Side Framework Bloat</strong>:<ul>
+<li>Built with pure Vanilla JavaScript (ES6+), eliminating large runtime bundles (React/Vue/Angular) and achieving near-instantaneous First Contentful Paint (FCP).</li>
+</ul>
+</li>
+<li><strong>In-Memory Fault-Tolerant Fallbacks</strong>:<ul>
+<li>Both AI and ML services feature resilient dual-execution pipelines. If Google Gemini or Python microservices are unreachable, native JavaScript mathematical routines step in automatically.</li>
+</ul>
+</li>
+<li><strong>Data Privacy &amp; In-Browser Processing</strong>:<ul>
+<li>Spreadsheets are parsed in the client&#39;s browser memory using SheetJS. Sensitive row contents are never transmitted across the network unless the user explicitly triggers cloud storage or AI summarization.</li>
+</ul>
+</li>
+<li><strong>Reproducible Machine Learning</strong>:<ul>
+<li>Tabular train/test holdouts utilize seeded pseudo-random number generators ($seed = 42$), ensuring reproducible metrics across sessions with zero target data leakage.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2>6. Project Directory Map</h2>
+<pre><code>excelinsight-main/
+├── app.js                         &lt;-- Core Frontend Controller &amp; State Store (5,546 lines)
+├── index.html                     &lt;-- Semantic UI &amp; Tailwind CSS structure
+├── style.css                      &lt;-- Custom glassmorphism, animations &amp; scrollbar styles
+├── env.js                         &lt;-- Runtime API configuration
+├── build_lld_pdf.mjs              &lt;-- LLD compendium PDF generation script
+├── ExcelInsight_Research_Paper.pdf&lt;-- Academic research paper
+├── server/
+│   ├── server.js                  &lt;-- Express entry point, middleware pipeline, MongoDB connect
+│   ├── ml_service.py              &lt;-- Standalone Python scikit-learn FastAPI microservice
+│   ├── requirements.txt           &lt;-- Python ML dependencies (FastAPI, scikit-learn, etc.)
+│   ├── package.json               &lt;-- Node.js backend dependencies
+│   ├── middleware/
+│   │   └── auth.js                &lt;-- JWT protect &amp; optionalProtect middlewares
+│   ├── models/                    &lt;-- Mongoose Schema Definitions
+│   │   ├── User.js                &lt;-- User credentials, roles (admin/user)
+│   │   ├── Upload.js              &lt;-- Stored dataset metadata &amp; row payloads
+│   │   ├── MLJob.js               &lt;-- Asynchronous ML training jobs &amp; metrics
+│   │   └── MLModel.js             &lt;-- Serialized model parameters &amp; feature weights
+│   └── routes/                    &lt;-- Express REST Route Handlers
+│       ├── auth.js                &lt;-- /api/auth (register, login, me)
+│       ├── uploads.js             &lt;-- /api/uploads (CRUD for user datasets)
+│       ├── ai.js                  &lt;-- /api/ai (insights, nlq via Gemini Flash)
+│       ├── ml.js                  &lt;-- /api/ml (train, forecast, native math engine)
+│       └── admin.js               &lt;-- /api/admin (telemetry &amp; user management)
+</code></pre>
+<hr>
+<h2>7. Conclusion</h2>
+<p>Data Vista represents a modern, unified architecture for business analytics. By integrating in-browser spreadsheet computation (SheetJS, Chart.js, Three.js) with scalable cloud services (Node.js, Express, MongoDB Atlas, Google Gemini, and Python FastAPI scikit-learn), the platform delivers end-to-end data ingestion, live editing, 2D/3D visualization, statistical auditing, machine-learning forecasting, and conversational AI insights in an intuitive web interface.</p>
+
+  </div>
+</body>
+</html>

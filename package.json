@@ -1,7 +1,7 @@
 {
-  "name": "excelinsight",
+  "name": "datavista",
   "version": "1.0.0",
-  "description": "Excel Insight - MERN Analytics Platform Frontend",
+  "description": "Data Vista - MERN Analytics Platform Frontend",
   "private": true,
   "scripts": {
     "start": "npx http-server . -p 8080"

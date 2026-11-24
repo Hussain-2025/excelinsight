@@ -124,7 +124,7 @@ router.post('/nlq', optionalProtect, async (req, res) => {
       return res.status(400).json({ success: false, message: 'Please provide a question' });
     }
 
-    const systemPrompt = `You are an intelligent data analyst and AI assistant inside the Excel Insight analytics platform.
+    const systemPrompt = `You are an intelligent data analyst and AI assistant inside the Data Vista analytics platform.
 The user is asking a question about the active spreadsheet dataset and/or the generated executive report:
 File Name: ${fileName || 'Active Dataset'}
 Columns: ${JSON.stringify(columns || [])}

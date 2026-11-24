@@ -27,7 +27,7 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'healthy',
-    platform: 'Excel Insight Enterprise Analytics API',
+    platform: 'Data Vista Enterprise Analytics API',
     timestamp: new Date().toISOString(),
     database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
   });
@@ -57,7 +57,7 @@ mongoose.connect(MONGO_URI)
   .then(() => {
     console.log('✅ MongoDB connected successfully to Atlas cluster');
     app.listen(PORT, () => {
-      console.log(`🚀 Excel Insight API running on port ${PORT}`);
+      console.log(`🚀 Data Vista API running on port ${PORT}`);
     });
   })
   .catch((err) => {
